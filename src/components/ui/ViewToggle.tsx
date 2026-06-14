@@ -12,7 +12,7 @@ export default function ViewToggle() {
         fontSize: 11, cursor: 'pointer',
         display: 'flex', alignItems: 'center', gap: 4,
       }}>
-      {viewMode === '2.5d' ? '📐 2D' : '🗺 2.5D'}
+      {viewMode === '2.5d' ? '🗺 2.5D' : '📐 2D'}
     </button>
   );
 }
