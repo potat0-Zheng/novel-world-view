@@ -1,0 +1,125 @@
+<h2>地形类型体系 — 初版 + 扩展预留</h2>
+<p class="subtitle">分三级：基础型（必须存在）→ 派生型（增强表现力）→ 自定义型（未来扩展）。所有类型可在编辑器中通过单元格圈选设置</p>
+
+<div class="section">
+  <h3>🌊 基础型 — MVP 必做（4 种）</h3>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+    <div style="background:#1e4080;border-radius:8px;padding:14px;text-align:center;border:2px solid #2a5aa0;">
+      <div style="font-size:28px;">🌊</div>
+      <div style="color:#fff;font-weight:600;margin:4px 0;">海洋</div>
+      <div style="font-size:10px;color:#88bbff;">深海 / 近海自动区分</div>
+    </div>
+    <div style="background:#3a6330;border-radius:8px;padding:14px;text-align:center;border:2px solid #5a8c4f;">
+      <div style="font-size:28px;">🌿</div>
+      <div style="color:#fff;font-weight:600;margin:4px 0;">平原</div>
+      <div style="font-size:10px;color:#aaffaa;">默认大陆地形</div>
+    </div>
+    <div style="background:#4a5a30;border-radius:8px;padding:14px;text-align:center;border:2px solid #6a7a4f;">
+      <div style="font-size:28px;">⛰</div>
+      <div style="color:#fff;font-weight:600;margin:4px 0;">山脉</div>
+      <div style="font-size:10px;color:#ccdd99;">高海拔，不可通行</div>
+    </div>
+    <div style="background:#3a5030;border-radius:8px;padding:14px;text-align:center;border:2px solid #2d6020;">
+      <div style="font-size:28px;">🌲</div>
+      <div style="color:#fff;font-weight:600;margin:4px 0;">森林</div>
+      <div style="font-size:10px;color:#88cc66;">密林区域</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🟡 派生型 — 增强表现力（6 种，可按需实现）</h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+    <div style="background:#1a2a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a5a5e;">
+      <div style="font-size:22px;">🏖</div>
+      <div style="color:#fff;font-weight:600;font-size:12px;">沙滩/浅滩</div>
+      <div style="font-size:9px;color:#88aaaa;">海洋↔平原过渡带<br/>自动生成，无需手动</div>
+    </div>
+    <div style="background:#1a2a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a5a5e;">
+      <div style="font-size:22px;">🏜</div>
+      <div style="color:#fff;font-weight:600;font-size:12px;">沙漠</div>
+      <div style="font-size:9px;color:#88aaaa;">干旱区域</div>
+    </div>
+    <div style="background:#1a2a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a5a5e;">
+      <div style="font-size:22px;">🏔</div>
+      <div style="color:#fff;font-weight:600;font-size:12px;">雪原/冻土</div>
+      <div style="font-size:9px;color:#88aaaa;">极寒地带</div>
+    </div>
+    <div style="background:#1a2a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a5a5e;">
+      <div style="font-size:22px;">🪵</div>
+      <div style="color:#fff;font-weight:600;font-size:12px;">丘陵</div>
+      <div style="font-size:9px;color:#88aaaa;">平原↔山脉过渡带<br/>适合建筑/城镇</div>
+    </div>
+    <div style="background:#1a2a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a5a5e;">
+      <div style="font-size:22px;">🌋</div>
+      <div style="color:#fff;font-weight:600;font-size:12px;">火山</div>
+      <div style="font-size:9px;color:#88aaaa;">特殊地貌</div>
+    </div>
+    <div style="background:#1a2a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a5a5e;">
+      <div style="font-size:22px;">🌫</div>
+      <div style="color:#fff;font-weight:600;font-size:12px;">沼泽</div>
+      <div style="font-size:9px;color:#88aaaa;">湿地/毒雾区</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>🔮 玄幻扩展型 — 为仙侠/奇幻小说预留（未来迭代）</h3>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+    <div style="background:#1a0a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a2080;opacity:0.8;">
+      <div style="font-size:22px;">✨</div>
+      <div style="color:#ccc;font-weight:600;font-size:11px;">灵脉/福地</div>
+    </div>
+    <div style="background:#1a0a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a2080;opacity:0.8;">
+      <div style="font-size:22px;">💀</div>
+      <div style="color:#ccc;font-weight:600;font-size:11px;">禁地/绝地</div>
+    </div>
+    <div style="background:#1a0a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a2080;opacity:0.8;">
+      <div style="font-size:22px;">🏚</div>
+      <div style="color:#ccc;font-weight:600;font-size:11px;">废墟/遗迹</div>
+    </div>
+    <div style="background:#1a0a2e;border-radius:6px;padding:10px;text-align:center;border:1px solid #3a2080;opacity:0.8;">
+      <div style="font-size:22px;">🌌</div>
+      <div style="color:#ccc;font-weight:600;font-size:11px;">虚空/异空间</div>
+    </div>
+  </div>
+  <div style="text-align:right;margin-top:4px;font-size:10px;color:#555;">＋ 用户自定义类型（自定义名称 + 颜色 + 图标）</div>
+</div>
+
+<div class="mockup" style="margin-top:16px;">
+  <div class="mockup-header">过渡融合示意：相邻地形自然衔接</div>
+  <div class="mockup-body" style="padding:16px;">
+    <div style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="width:180px;height:60px;background:linear-gradient(90deg, #1e4080 0%, #2a5599 20%, #3a7a5a 60%, #4a7c3f 100%);border-radius:4px;"></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">海洋 → 浅滩 → 平原</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:180px;height:60px;background:linear-gradient(90deg, #4a7c3f 0%, #5a7a30 40%, #4a5a30 70%, #3a4040 100%);border-radius:4px;"></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">平原 → 丘陵 → 山脉</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="width:180px;height:60px;background:linear-gradient(90deg, #3a5030 0%, #3a5a20 30%, #4a7c3f 100%);border-radius:4px;"></div>
+        <div style="font-size:10px;color:#888;margin-top:4px;">森林 → 平原</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:12px;">
+  <h3>扩展性设计：参数化地形定义</h3>
+  <div style="background:#1a1a2e;padding:12px;border-radius:6px;font-size:12px;color:#ccc;font-family:monospace;">
+    <span style="color:#888;">// 每个地形类型是一个配置对象，新增只需加一行</span><br/>
+    <span style="color:#c678dd;">const</span> <span style="color:#e5c07b;">terrainTypes</span> = {<br/>
+    &nbsp;&nbsp;<span style="color:#98c379;">ocean</span>: { <span style="color:#e06c75;">name</span>: <span style="color:#98c379;">'海洋'</span>, <span style="color:#e06c75;">color</span>: <span style="color:#98c379;">'#1e4080'</span>, <span style="color:#e06c75;">elevation</span>: <span style="color:#d19a66;">-1</span>, <span style="color:#e06c75;">walkable</span>: <span style="color:#56b6c2;">false</span> },<br/>
+    &nbsp;&nbsp;<span style="color:#98c379;">plain</span>: { <span style="color:#e06c75;">name</span>: <span style="color:#98c379;">'平原'</span>, <span style="color:#e06c75;">color</span>: <span style="color:#98c379;">'#4a7c3f'</span>, <span style="color:#e06c75;">elevation</span>: <span style="color:#d19a66;">0</span>, <span style="color:#e06c75;">walkable</span>: <span style="color:#56b6c2;">true</span> },<br/>
+    &nbsp;&nbsp;<span style="color:#98c379;">mountain</span>: { <span style="color:#e06c75;">name</span>: <span style="color:#98c379;">'山脉'</span>, <span style="color:#e06c75;">color</span>: <span style="color:#98c379;">'#4a5a30'</span>, <span style="color:#e06c75;">elevation</span>: <span style="color:#d19a66;">2</span>, <span style="color:#e06c75;">walkable</span>: <span style="color:#56b6c2;">false</span> },<br/>
+    &nbsp;&nbsp;<span style="color:#98c379;">forest</span>: { <span style="color:#e06c75;">name</span>: <span style="color:#98c379;">'森林'</span>, <span style="color:#e06c75;">color</span>: <span style="color:#98c379;">'#2d6020'</span>, <span style="color:#e06c75;">elevation</span>: <span style="color:#d19a66;">0</span>, <span style="color:#e06c75;">walkable</span>: <span style="color:#56b6c2;">true</span> },<br/>
+    &nbsp;&nbsp;<span style="color:#888;">// 后续新增：</span><br/>
+    &nbsp;&nbsp;<span style="color:#888;">// desert:  { name: '沙漠', color: '#c4a43a', elevation: 0, walkable: true },</span><br/>
+    &nbsp;&nbsp;<span style="color:#888;">// tundra:  { name: '冻土', color: '#c8d8e8', elevation: 0, walkable: true },</span><br/>
+    &nbsp;&nbsp;<span style="color:#888;">// ... 用户自定义类型</span><br/>
+    }<br/>
+    <span style="color:#888;">// 过渡规则：相邻格 elevation 差值 → 自动决定渐变样式</span>
+  </div>
+</div>

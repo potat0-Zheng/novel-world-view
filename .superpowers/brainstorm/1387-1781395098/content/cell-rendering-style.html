@@ -1,0 +1,132 @@
+<h2>单元格渲染：从「数据网格」到「有机视觉」</h2>
+<p class="subtitle">数据层始终是单元格，但视觉上必须自然衔接。四种实现路线的直观对比</p>
+
+<div class="split">
+  <!-- 方案 A -->
+  <div class="mockup">
+    <div class="mockup-header">A. 过渡融合法（推荐）</div>
+    <div class="mockup-body" style="padding:16px;min-height:260px;">
+      <p style="font-size:11px;color:#888;margin-bottom:8px;">固定底层 mesh 网格 + 相邻同类型自动生成渐变遮罩，大面积时看不到格线</p>
+      <div style="background:#1a2a4a;padding:20px;border-radius:6px;text-align:center;">
+        <!-- 有机大陆示意 -->
+        <div style="position:relative;width:240px;height:160px;margin:0 auto;">
+          <svg viewBox="0 0 240 160" style="width:100%;height:100%;">
+            <defs>
+              <filter id="blurA"><feGaussianBlur stdDeviation="1.5"/></filter>
+            </defs>
+            <!-- 海洋底 -->
+            <rect width="240" height="160" fill="#1e4080"/>
+            <!-- 大陆 - 不规则形状 -->
+            <path d="M30,40 Q45,25 70,28 Q95,22 120,35 Q140,20 165,32 Q190,38 200,55 Q215,70 210,90 Q220,110 205,125 Q190,140 165,135 Q140,145 115,138 Q85,148 55,140 Q35,130 25,110 Q15,85 30,40Z" fill="#4a7c3f"/>
+            <!-- 海岸过渡 -->
+            <path d="M30,40 Q45,25 70,28 Q95,22 120,35 Q140,20 165,32 Q190,38 200,55 Q215,70 210,90 Q220,110 205,125 Q190,140 165,135 Q140,145 115,138 Q85,148 55,140 Q35,130 25,110 Q15,85 30,40Z" fill="none" stroke="#6ab05a" stroke-width="3" filter="url(#blurA)" opacity="0.4"/>
+            <!-- 隐约格线（仅在大陆内部，极度淡化） -->
+            <line x1="70" y1="28" x2="70" y2="140" stroke="rgba(255,255,255,0.06)" stroke-width="4"/>
+            <line x1="120" y1="28" x2="120" y2="138" stroke="rgba(255,255,255,0.06)" stroke-width="4"/>
+            <line x1="160" y1="32" x2="165" y2="140" stroke="rgba(255,255,255,0.06)" stroke-width="4"/>
+          </svg>
+          <!-- 三个关联点 -->
+          <div style="position:absolute;top:30%;left:32%;color:#ffd700;font-size:9px;text-shadow:0 1px 2px #000;">🏙 王城</div>
+          <div style="position:absolute;top:55%;left:28%;color:#ffa500;font-size:9px;text-shadow:0 1px 2px #000;">🌳 幽暗密林</div>
+          <div style="position:absolute;top:72%;left:55%;color:#aad4ff;font-size:9px;">🏖 月牙湾</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:#6ab05a;">✅ 大面积自然 · ✅ 实现成本适中 · ✅ 海岸自动柔和</div>
+    </div>
+  </div>
+
+  <!-- 方案 B -->
+  <div class="mockup">
+    <div class="mockup-header">B. 等值线铺片法</div>
+    <div class="mockup-body" style="padding:16px;min-height:260px;">
+      <p style="font-size:11px;color:#888;margin-bottom:8px;">每个格由多种「边缘瓦片」拼合（类似 Warcraft 地形系统），相邻格自动匹配</p>
+      <div style="background:#1a2a4a;padding:20px;border-radius:6px;text-align:center;">
+        <div style="position:relative;width:240px;height:160px;margin:0 auto;">
+          <!-- 9-cell tile representation -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);width:180px;margin:0 auto;transform:rotateX(45deg) rotateZ(-30deg);">
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #4a7c3f 0%, #5a8c4f 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);position:relative;">
+              <div style="position:absolute;top:2px;right:2px;width:6px;height:6px;background:#3a6330;border-radius:1px 4px 1px 1px;"></div>
+            </div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #4a7c3f 0%, #5a8c4f 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #3a8a5a 0%, #2a5599 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #4a7c3f 0%, #5a8c4f 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #5a8c4f 0%, #4a7c3f 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #3a9a5a 0%, #2a5599 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #2a5599 0%, #4a7c3f 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #2a5599 0%, #4a7c3f 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+            <div style="aspect-ratio:1;background:linear-gradient(135deg, #2a5599 0%, #3a8aaa 100%);border-radius:2px;border:1px solid rgba(255,255,255,0.08);"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:#ffa500;">⚠️ 衔接自然 · ⚠️ 需要大量瓦片资源 · ⚠️ 边界计算复杂</div>
+    </div>
+  </div>
+</div>
+
+<div class="split" style="margin-top:0;">
+  <!-- 方案 C 的细节 -->
+  <div class="mockup">
+    <div class="mockup-header">过渡融合法 细节解剖</div>
+    <div class="mockup-body" style="padding:16px;">
+      <div style="display:flex;gap:16px;align-items:flex-start;">
+        <div style="flex-shrink:0;text-align:center;">
+          <div class="label" style="margin-bottom:4px;">数据层（用户编辑）</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;width:120px;">
+            <div style="aspect-ratio:1;background:#4a7c3f;"></div><div style="aspect-ratio:1;background:#4a7c3f;"></div><div style="aspect-ratio:1;background:#4a7c3f;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div>
+            <div style="aspect-ratio:1;background:#4a7c3f;"></div><div style="aspect-ratio:1;background:#4a7c3f;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div>
+            <div style="aspect-ratio:1;background:#4a7c3f;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div>
+            <div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div>
+            <div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div><div style="aspect-ratio:1;background:#3a6fb5;"></div>
+          </div>
+          <div style="font-size:9px;color:#888;margin-top:4px;">整齐的网格数据</div>
+        </div>
+        <div style="color:#4a90d9;font-size:24px;">→</div>
+        <div style="flex-shrink:0;text-align:center;">
+          <div class="label" style="margin-bottom:4px;">视觉层（渲染结果）</div>
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <rect width="120" height="120" fill="#1e4080"/>
+            <!-- 有机大陆形状 -->
+            <path d="M20,25 Q30,15 45,18 Q55,12 65,20 Q80,25 85,40 Q90,55 80,65 Q70,75 55,70 Q40,75 25,65 Q15,55 12,40 Q10,30 20,25Z" fill="#4a7c3f"/>
+            <!-- 内部细节 -->
+            <path d="M30,35 Q40,30 50,35 Q55,40 48,48" fill="none" stroke="#5a9c4f" stroke-width="1.5" opacity="0.5"/>
+            <path d="M55,50 Q65,45 70,55" fill="none" stroke="#5a9c4f" stroke-width="1.5" opacity="0.5"/>
+            <!-- 海岸渐变 -->
+            <path d="M20,25 Q30,15 45,18 Q55,12 65,20 Q80,25 85,40 Q90,55 80,65 Q70,75 55,70 Q40,75 25,65 Q15,55 12,40 Q10,30 20,25Z" fill="none" stroke="#6ab05a" stroke-width="2.5" opacity="0.3"/>
+          </svg>
+          <div style="font-size:9px;color:#888;margin-top:4px;">格线消失，有机衔接</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:8px;background:#1a1a2e;border-radius:4px;font-size:10px;color:#aaa;">
+        <strong style="color:#4a90d9;">核心逻辑：</strong>相邻同类型格 → 公用纹理 / 模糊边界 → 视觉上融为一体。<br/>
+        <strong style="color:#4a90d9;">海岸过渡：</strong>陆地-海洋交界处自动生成渐变条带（沙滩/浅滩）。
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>方案对比总结</h3>
+  <div class="options">
+    <div class="option" data-choice="transition-blend" onclick="toggleSelect(this)">
+      <div class="letter">A</div>
+      <div class="content">
+        <h3>过渡融合法 ⭐ 推荐</h3>
+        <p>每个格 = 一个顶点 → 不规则 mesh。相邻同类型格的边界自动柔化消失。海岸区生成渐变过渡带。数据仍然是格，视觉完全有机。开发成本：中等</p>
+      </div>
+    </div>
+    <div class="option" data-choice="auto-tile" onclick="toggleSelect(this)">
+      <div class="letter">B</div>
+      <div class="content">
+        <h3>自动瓦片法</h3>
+        <p>预置 47+ 种边界瓦片（全内陆/左上角/右边/底边...），根据邻居类型自动选片。完全无缝但素材量大，后续新增地形类型时瓦片数量指数增长。开发成本：高</p>
+      </div>
+    </div>
+    <div class="option" data-choice="noise-blend" onclick="toggleSelect(this)">
+      <div class="letter">C</div>
+      <div class="content">
+        <h3>噪声扰动法</h3>
+        <p>在格线位置叠加 Perlin 噪声扰动，边界呈现自然锯齿。实现简单但可控性差，可能出现意想不到的锯齿或碎片。不适用于需要精确对应数据位置的场景。开发成本：低</p>
+      </div>
+    </div>
+  </div>
+</div>

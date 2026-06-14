@@ -1,0 +1,119 @@
+<h2>L3 模型库 — 固定模型 + 分类管理</h2>
+<p class="subtitle">所有 3D 模型（建筑 & 自然景观地标）作为预置资源，用户从模型库选择后放置在 L1/L2 之上</p>
+
+<div class="mockup" style="margin-bottom:16px;">
+  <div class="mockup-header">L3 放置逻辑：模型库 → 选模型 → 点击格子 → 放置</div>
+  <div class="mockup-body" style="padding:16px;">
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <!-- 模型库面板 -->
+      <div style="flex-shrink:0;width:200px;background:#0d1a2d;border-radius:6px;padding:8px;border:1px solid #333;">
+        <div style="color:#fff;font-size:12px;font-weight:600;margin-bottom:8px;">📦 模型库</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="background:#2a3a5a;padding:6px 8px;border-radius:4px;font-size:10px;color:#ccc;border:1px solid #d4a843;">🏰 城堡 (3)</div>
+          <div style="background:#1a2a4a;padding:6px 8px;border-radius:4px;font-size:10px;color:#aaa;">🏘 聚落 (4)</div>
+          <div style="background:#1a2a4a;padding:6px 8px;border-radius:4px;font-size:10px;color:#aaa;">⛩ 殿堂 (3)</div>
+          <div style="background:#1a2a4a;padding:6px 8px;border-radius:4px;font-size:10px;color:#aaa;">🗼 塔/碑 (4)</div>
+          <div style="background:#1a2a4a;padding:6px 8px;border-radius:4px;font-size:10px;color:#aaa;">🏗 工事 (3)</div>
+          <div style="background:#1a2a4a;padding:6px 8px;border-radius:4px;font-size:10px;color:#aaa;">🌳 自然地标 (5)</div>
+          <div style="background:#1a2a4a;padding:6px 8px;border-radius:4px;font-size:10px;color:#aaa;">✨ 特殊 (3)</div>
+        </div>
+        <div style="margin-top:8px;padding:4px;background:#1a3a1a;border-radius:4px;font-size:9px;color:#6ab05a;text-align:center;">+ 导入模型 (GLTF/GLB)</div>
+      </div>
+      <!-- 预览区域 -->
+      <div style="flex:1;background:linear-gradient(135deg,#1a2a4a,#243b6a);border-radius:6px;padding:20px;text-align:center;min-height:200px;display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:180px;height:120px;transform:rotateX(50deg) rotateZ(-30deg);transform-style:preserve-3d;">
+          <div style="position:absolute;bottom:0;left:0;right:0;height:100%;background:linear-gradient(135deg,#4a7c3f,#3a6330);border-radius:4px;"></div>
+          <!-- 城堡模型 -->
+          <div style="position:absolute;bottom:20%;left:35%;">
+            <div style="width:40px;height:35px;background:linear-gradient(180deg,#d4a843,#8b7230);border-radius:3px;">
+              <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:12px solid #d4a843;"></div>
+              <div style="position:absolute;top:8px;left:4px;width:10px;height:8px;background:#1a2a4a;border-radius:1px;"></div>
+              <div style="position:absolute;top:8px;right:4px;width:10px;height:8px;background:#1a2a4a;border-radius:1px;"></div>
+              <div style="position:absolute;bottom:0;left:6px;width:8px;height:12px;background:#8b7230;"></div>
+            </div>
+          </div>
+          <!-- 自然地标：巨树 -->
+          <div style="position:absolute;bottom:18%;right:20%;">
+            <div style="width:10px;height:32px;background:#5a3a1a;border-radius:2px;"></div>
+            <div style="width:28px;height:20px;background:#2d6b20;border-radius:50%;position:absolute;top:-8px;left:-9px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>MVP 模型库 — 初版 6 大类 ~ 25 个模型</h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #d4a843;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">🏰 城堡/要塞 (3)</div>
+      <div style="font-size:10px;color:#888;">大型王城、中型城堡、小型哨塔。可放置于平原/丘陵之上</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #a06030;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">🏘 聚落 (4)</div>
+      <div style="font-size:10px;color:#888;">大城镇、小村庄、渔村（海岸）、山间村落。匹配 L2 地形可有变体外观</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #8a4080;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">⛩ 殿堂/宗教 (3)</div>
+      <div style="font-size:10px;color:#888;">神殿、庙宇、祭坛。仙侠/奇幻常用</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #5a8a9a;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">🗼 塔/碑/雕像 (4)</div>
+      <div style="font-size:10px;color:#888;">法师塔、纪念碑、巨型雕像、路标石</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #888;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">🏗 工事/设施 (3)</div>
+      <div style="font-size:10px;color:#888;">城墙、桥梁（跨河流）、港口/码头、矿场</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #4a8a3a;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">🌳 自然地标 (5)</div>
+      <div style="font-size:10px;color:#888;">巨树/神木、瀑布、奇岩、火山口、洞穴入口。区别于 L2 面状地形，这些是点状 3D 模型</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>模型来源策略</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+    <div style="background:#0d1a2d;padding:12px;border-radius:6px;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">📥 现有模型导入</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">
+        • Sketchfab / Poly Pizza 等免费 CC0 模型<br/>
+        • 支持 GLTF/GLB 格式导入<br/>
+        • 用户自行下载后拖入模型库<br/>
+        • 系统提供预设的 10-15 个基础模型
+      </div>
+    </div>
+    <div style="background:#0d1a2d;padding:12px;border-radius:6px;">
+      <div style="color:#fff;font-weight:600;font-size:12px;">🤖 AI 生成模型</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">
+        • 接入 Meshy AI / Luma AI 等 3D 生成 API<br/>
+        • 用户输入文字描述 → 生成低多边形模型<br/>
+        • 风格统一为 low-poly / 体素风格（降低生成难度）<br/>
+        • 非 MVP 必须，标记为后续迭代
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>模型风格建议</h3>
+  <div style="display:flex;gap:10px;">
+    <div style="flex:1;background:#1a2a2e;padding:14px;border-radius:8px;text-align:center;border:2px solid #4a90d9;">
+      <div style="font-size:32px;">🔷</div>
+      <div style="color:#fff;font-weight:600;">Low-Poly 风格</div>
+      <div style="font-size:10px;color:#aaa;margin-top:4px;">视觉清爽，模型小而快<br/>AI生成友好，个人开发首选</div>
+    </div>
+    <div style="flex:1;background:#1a2a2e;padding:14px;border-radius:8px;text-align:center;border:1px solid #333;opacity:0.7;">
+      <div style="font-size:32px;">🎨</div>
+      <div style="color:#ccc;font-weight:600;">体素风格</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">类似 Minecraft，与网格天然契合<br/>但视觉表现力有限</div>
+    </div>
+    <div style="flex:1;background:#1a2a2e;padding:14px;border-radius:8px;text-align:center;border:1px solid #333;opacity:0.7;">
+      <div style="font-size:32px;">🖌</div>
+      <div style="color:#ccc;font-weight:600;">手绘/风格化</div>
+      <div style="font-size:10px;color:#888;margin-top:4px;">视觉效果最佳<br/>但模型制作成本最高</div>
+    </div>
+  </div>
+</div>

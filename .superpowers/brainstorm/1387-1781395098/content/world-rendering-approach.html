@@ -1,0 +1,73 @@
+<h2>世界样貌 — 渲染路线选择</h2>
+<p class="subtitle">这是整个应用最核心的技术决策，直接影响视觉效果、开发难度和交互能力</p>
+
+<div class="cards">
+  <div class="card" data-choice="3d" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);padding:60px 30px;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;bottom:-20px;left:10%;right:10%;height:60%;background:linear-gradient(180deg, #2d5016 0%, #1a3009 100%);transform:perspective(400px) rotateX(35deg);border-radius:4px;"></div>
+        <div style="position:absolute;bottom:10px;left:30%;width:40%;height:25px;background:#4a90d9;border-radius:50%;opacity:0.6;transform:perspective(200px) rotateX(30deg);"></div>
+        <div style="position:relative;z-index:1;color:#fff;font-size:14px;margin-top:20px;">
+          <div style="display:inline-block;background:rgba(255,255,255,0.1);padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.2);margin:4px;">🏔 北境山脉</div>
+          <div style="display:inline-block;background:rgba(255,255,255,0.1);padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.2);margin:4px;">🏙 中央王城</div>
+          <div style="display:inline-block;background:rgba(255,255,255,0.1);padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.2);margin:4px;">🌊 东海港</div>
+        </div>
+        <div style="position:absolute;top:10px;right:15px;color:rgba(255,255,255,0.4);font-size:11px;">🔄 旋转中</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. 真 3D 自由视角</h3>
+      <p>基于 Three.js/Babylon.js 实现完整3D场景，用户可自由旋转、缩放、俯仰视角</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>优势</h4>
+          <ul>
+            <li>沉浸感强，视觉震撼</li>
+            <li>自由视角探索世界</li>
+            <li>支持地形高度、光影等真实效果</li>
+          </ul>
+        </div>
+        <div class="cons"><h4>挑战</h4>
+          <ul>
+            <li>开发复杂度高，模型制作成本大</li>
+            <li>性能要求较高</li>
+            <li>交互点位设计更复杂</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="2.5d" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background:linear-gradient(135deg, #1b2a4a 0%, #2c3e6b 100%);padding:60px 30px;text-align:center;position:relative;">
+        <div style="position:relative;margin:0 auto;width:300px;height:200px;transform:rotateX(55deg) rotateZ(-25deg);transform-style:preserve-3d;">
+          <div style="position:absolute;bottom:0;left:0;right:0;height:70%;background:linear-gradient(135deg, #3a6b35 0%, #2d5530 50%, #1e3b20 100%);border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+            <div style="position:absolute;top:10px;left:30px;font-size:11px;color:#ffd700;">🏔 北境</div>
+            <div style="position:absolute;top:30px;right:40px;font-size:11px;color:#ffd700;">🏙 王城</div>
+            <div style="position:absolute;bottom:20px;left:60px;font-size:11px;color:#aad4ff;">🌊 东海</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. 2.5D 等距视角</h3>
+      <p>固定45度等距视角 + 多层深度，类似策略游戏世界地图（如《文明》系列）</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>优势</h4>
+          <ul>
+            <li>开发复杂度适中，可用 Canvas/SVG</li>
+            <li>信息密度高，一目了然</li>
+            <li>性能友好，移动端也能跑</li>
+          </ul>
+        </div>
+        <div class="cons"><h4>挑战</h4>
+          <ul>
+            <li>无法自由旋转视角</li>
+            <li>高度表现力有限</li>
+            <li>视觉冲击力不如3D</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

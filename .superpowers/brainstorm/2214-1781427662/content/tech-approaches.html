@@ -1,0 +1,124 @@
+<h2>三种技术方案对比</h2>
+<p class="subtitle">从个人项目的角度出发，重点评估：开发效率、3D能力、UI集成、后续扩展</p>
+
+<div class="section">
+  <h3>基础技术共识</h3>
+  <p style="font-size:12px;color:#aaa;">无论选哪个方案，以下层面是通用的：</p>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+    <div style="background:#1a1a2e;padding:8px 12px;border-radius:20px;font-size:11px;color:#ccc;border:1px solid #333;">🗺 Three.js — 3D渲染引擎</div>
+    <div style="background:#1a1a2e;padding:8px 12px;border-radius:20px;font-size:11px;color:#ccc;border:1px solid #333;">📦 GLTF/GLB — 3D模型格式</div>
+    <div style="background:#1a1a2e;padding:8px 12px;border-radius:20px;font-size:11px;color:#ccc;border:1px solid #333;">🗄 IndexedDB / JSON — 本地数据存储</div>
+    <div style="background:#1a1a2e;padding:8px 12px;border-radius:20px;font-size:11px;color:#ccc;border:1px solid #333;">📐 Vite — 构建工具</div>
+    <div style="background:#1a1a2e;padding:8px 12px;border-radius:20px;font-size:11px;color:#ccc;border:1px solid #333;">🔤 TypeScript — 类型安全</div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="R3F" onclick="toggleSelect(this)" style="border-color:#4a90d9;">
+    <div class="letter" style="background:#4a90d9;">A</div>
+    <div class="content">
+      <h3>React + React Three Fiber ⭐ 推荐</h3>
+      <p>React 驱动 UI，R3F 声明式管理 3D 场景。组件化：一个 Panel 组件 = 一个 .tsx 文件。状态管理用 Zustand。UI 与 3D 紧密耦合的场景最适合。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;">
+        <div style="font-size:10px;color:#6ab05a;">
+          ✅ 组件化开发，3D/UI 复用同一生态<br/>
+          ✅ 大量 Three.js 封装，代码量少 40%<br/>
+          ✅ 摄像机动画用 @react-three/drei<br/>
+          ✅ 个人项目社区资源最丰富
+        </div>
+        <div style="font-size:10px;color:#ffa500;">
+          ⚠️ 学习 R3F 声明式思维<br/>
+          ⚠️ React 体积 ~140KB
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="Vanilla" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Vanilla Three.js + 轻量框架</h3>
+      <p>直接使用 Three.js 管理 3D 场景，UI 层用 Svelte 或 Preact。3D 场景完全手动控制，适合需要精细优化 3D 性能的场景。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;">
+        <div style="font-size:10px;color:#6ab05a;">
+          ✅ 完全控制 3D 渲染管线<br/>
+          ✅ 包体积最小<br/>
+          ✅ Svelte 编译后极轻量
+        </div>
+        <div style="font-size:10px;color:#ffa500;">
+          ⚠️ 3D/UI 通信需要手动桥接<br/>
+          ⚠️ 自定义摄像机动画代码量大<br/>
+          ⚠️ 缺少声明式 3D 组件封装
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="Desktop" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Electron + React + R3F（桌面应用）</h3>
+      <p>与 A 相同技术栈，但打包为桌面应用。可访问文件系统（直接导入本地模型）、提供原生窗口体验。</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;">
+        <div style="font-size:10px;color:#6ab05a;">
+          ✅ 文件系统访问（本地模型导入）<br/>
+          ✅ 原生体验，无浏览器限制<br/>
+          ✅ 可离线使用
+        </div>
+        <div style="font-size:10px;color:#ffa500;">
+          ⚠️ 打包体积大（~150MB）<br/>
+          ⚠️ 更新需要重新打包<br/>
+          ⚠️ 超出 MVP 需求
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:16px;">
+  <h3>推荐方案 A：React + R3F 的架构蓝图</h3>
+  <div style="display:flex;gap:12px;align-items:flex-start;">
+    <div style="flex:1;background:#0d1a2d;border-radius:6px;padding:12px;border:1px solid #333;">
+      <div style="color:#4a90d9;font-weight:600;font-size:12px;margin-bottom:8px;">🧱 核心依赖</div>
+      <div style="font-size:10px;color:#aaa;line-height:1.8;">
+        • React 18 + TypeScript<br/>
+        • Three.js + @react-three/fiber<br/>
+        • @react-three/drei（摄像机、OrbitControls、辅助工具）<br/>
+        • Zustand（全局状态管理：地形数据、UI状态）<br/>
+        • Vite（构建）<br/>
+        • React Router（页面路由：地图/人物/体系/时间线）
+      </div>
+    </div>
+    <div style="flex:1;background:#0d1a2d;border-radius:6px;padding:12px;border:1px solid #333;">
+      <div style="color:#5a8c4f;font-weight:600;font-size:12px;margin-bottom:8px;">📁 项目结构示意</div>
+      <div style="font-size:10px;color:#aaa;line-height:1.8;">
+        src/<br/>
+        ├── components/<br/>
+        │   ├── scene/      # 3D 场景（WorldMap, Terrain, Camera）<br/>
+        │   ├── editor/     # 编辑器（GridEditor, ModelPalette）<br/>
+        │   ├── panels/     # 信息面板（DetailPanel, PersonList）<br/>
+        │   └── ui/         # 通用 UI（ToggleSwitch, Toolbar）<br/>
+        ├── pages/          # 路由页面<br/>
+        ├── store/          # Zustand stores<br/>
+        ├── data/           # 地形定义、模型配置<br/>
+        └── types/          # TypeScript 类型定义
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>后续扩展能力对比</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+    <div style="background:#0d1a2d;border-radius:6px;padding:10px;border:1px solid #4a90d9;">
+      <div style="color:#4a90d9;font-weight:600;font-size:11px;">方案 A (R3F) 🟢</div>
+      <div style="font-size:10px;color:#aaa;">→ AI 接入：直接调用 API<br/>→ Obsidian 插件：组件复用<br/>→ 人物关系图谱：React 图谱库集成<br/>→ 时间轴：同一路由体系</div>
+    </div>
+    <div style="background:#0d1a2d;border-radius:6px;padding:10px;border:1px solid #555;opacity:0.7;">
+      <div style="color:#aaa;font-weight:600;font-size:11px;">方案 B (Vanilla) 🟡</div>
+      <div style="font-size:10px;color:#888;">→ AI 接入：可<br/>→ 插件化：需自行封装 API<br/>→ 图谱集成：可以，但桥接代码多</div>
+    </div>
+    <div style="background:#0d1a2d;border-radius:6px;padding:10px;border:1px solid #555;opacity:0.7;">
+      <div style="color:#aaa;font-weight:600;font-size:11px;">方案 C (Electron) 🔵</div>
+      <div style="font-size:10px;color:#888;">→ 最强本地能力<br/>→ 但 MVP 阶段过度设计<br/>→ Web 版本后续可升级至 Tauri</div>
+    </div>
+  </div>
+</div>

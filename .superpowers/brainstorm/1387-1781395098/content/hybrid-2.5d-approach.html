@@ -1,0 +1,90 @@
+<h2>混合方案：2.5D 主视角 + 2D/3D 切换</h2>
+<p class="subtitle">参考地图导航软件的视角切换模式，保留 2.5D 场景中的建筑和自然景观 3D 模型</p>
+
+<div class="mockup">
+  <div class="mockup-header">核心交互：视角切换（类似地图 App 的 2D/3D 按钮）</div>
+  <div class="mockup-body">
+    <!-- 切换示意 -->
+    <div style="display:flex;gap:16px;margin-bottom:20px;align-items:center;justify-content:center;">
+      <div style="background:#2a3a5a;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;border:2px solid #4a90d9;">🗺 2.5D 视角</div>
+      <div style="color:#666;">⇄</div>
+      <div style="background:#2a3a5a;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;border:2px solid transparent;">📐 2D 平面</div>
+    </div>
+
+    <!-- 2.5D 视角画面 -->
+    <div style="background:linear-gradient(135deg, #1a2a4a 0%, #243b6a 50%, #1e3558 100%);padding:40px 20px;text-align:center;position:relative;overflow:hidden;border-radius:8px;margin-bottom:16px;">
+      <div style="position:relative;width:340px;height:200px;margin:0 auto;transform:rotateX(55deg) rotateZ(-30deg);transform-style:preserve-3d;">
+        <!-- 地形底面 -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:80%;background:linear-gradient(135deg, #4a7c3f 0%, #3a6330 30%, #5a8c4f 60%, #2d5020 100%);border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.4);"></div>
+        <!-- 河流 -->
+        <div style="position:absolute;bottom:15%;left:0;right:0;height:12px;background:linear-gradient(90deg, transparent 0%, #4a90d9 20%, #5aa0e9 50%, #4a90d9 80%, transparent 100%);border-radius:6px;opacity:0.7;"></div>
+        <!-- 3D 建筑：王城 -->
+        <div style="position:absolute;bottom:30%;right:30%;">
+          <div style="width:40px;height:55px;background:linear-gradient(180deg, #d4a843 0%, #b8943a 40%, #8b7230 100%);border-radius:3px;box-shadow:2px -2px 8px rgba(212,168,67,0.3);">
+            <div style="position:absolute;top:5px;width:100%;height:2px;background:#ffe8a0;opacity:0.5;"></div>
+            <div style="position:absolute;top:15px;width:100%;height:2px;background:#ffe8a0;opacity:0.5;"></div>
+            <div style="position:absolute;top:25px;width:100%;height:2px;background:#ffe8a0;opacity:0.5;"></div>
+            <!-- 塔尖 -->
+            <div style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:15px solid #d4a843;"></div>
+          </div>
+        </div>
+        <!-- 3D 山脉 -->
+        <div style="position:absolute;bottom:40%;left:15%;">
+          <div style="width:0;height:0;border-left:25px solid transparent;border-right:25px solid transparent;border-bottom:45px solid #5a7a8a;"></div>
+          <div style="width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:30px solid #6a8a9a;position:absolute;left:-5px;bottom:45px;"></div>
+        </div>
+        <!-- 3D 树林 -->
+        <div style="position:absolute;bottom:38%;left:50%;display:flex;gap:3px;align-items:flex-end;">
+          <div style="width:8px;height:18px;background:#2d6b20;border-radius:50% 50% 0 0;"></div>
+          <div style="width:10px;height:24px;background:#3a7d2a;border-radius:50% 50% 0 0;"></div>
+          <div style="width:8px;height:16px;background:#2d6b20;border-radius:50% 50% 0 0;"></div>
+          <div style="width:9px;height:20px;background:#357225;border-radius:50% 50% 0 0;"></div>
+        </div>
+        <!-- 标签 -->
+        <div style="position:absolute;bottom:25%;right:25%;color:#ffd700;font-size:10px;text-shadow:0 1px 2px #000;">🏙 中央王城</div>
+        <div style="position:absolute;bottom:35%;left:15%;color:#ffd700;font-size:10px;text-shadow:0 1px 2px #000;">⛰ 北境山脉</div>
+        <div style="position:absolute;bottom:50%;left:45%;color:#aad4ff;font-size:10px;text-shadow:0 1px 2px #000;">🌲 迷雾森林</div>
+      </div>
+    </div>
+
+    <!-- 2D 平面视角 -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div style="flex:1;height:1px;background:#333;"></div>
+      <span style="color:#888;font-size:11px;">切换到 2D 俯视</span>
+      <div style="flex:1;height:1px;background:#333;"></div>
+    </div>
+    <div style="background:linear-gradient(135deg, #2a3a1a 0%, #1a2a0a 100%);padding:30px 20px;text-align:center;border-radius:8px;">
+      <div style="position:relative;width:300px;height:180px;margin:0 auto;background:linear-gradient(135deg, #5a8c4f 0%, #4a7c3f 30%, #3a6330 60%, #2d5020 100%);border-radius:8px;">
+        <!-- 河流 -->
+        <div style="position:absolute;top:40%;left:0;right:0;height:8px;background:rgba(74,144,217,0.6);"></div>
+        <!-- 建筑图标（俯视） -->
+        <div style="position:absolute;top:20%;right:25%;font-size:16px;">🏙</div>
+        <div style="position:absolute;top:15%;left:20%;font-size:14px;">⛰</div>
+        <div style="position:absolute;top:30%;left:45%;font-size:12px;">🌲</div>
+        <div style="position:absolute;top:20%;right:25%;color:#ffd700;font-size:9px;">中央王城</div>
+        <div style="position:absolute;top:15%;left:15%;color:#ffd700;font-size:9px;">北境山脉</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:16px;">
+  <h3>方案总结</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+    <div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center;">
+      <div style="font-size:24px;margin-bottom:4px;">🗺️</div>
+      <div style="font-weight:600;color:#fff;margin-bottom:4px;">2.5D 等距</div>
+      <div style="font-size:12px;color:#aaa;">主视角，承载 3D 模型<br/>类似《模拟城市》</div>
+    </div>
+    <div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center;">
+      <div style="font-size:24px;margin-bottom:4px;">📐</div>
+      <div style="font-weight:600;color:#fff;margin-bottom:4px;">2D 俯视</div>
+      <div style="font-size:12px;color:#aaa;">一键切换，平面布局<br/>方便快速定位</div>
+    </div>
+    <div style="background:#1a1a2e;padding:12px;border-radius:8px;text-align:center;">
+      <div style="font-size:24px;margin-bottom:4px;">🏰</div>
+      <div style="font-weight:600;color:#fff;margin-bottom:4px;">3D 模型</div>
+      <div style="font-size:12px;color:#aaa;">建筑/山体/巨树等<br/>仅在 2.5D 下显示</div>
+    </div>
+  </div>
+</div>

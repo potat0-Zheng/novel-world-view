@@ -1,0 +1,64 @@
+<h2>地图交互 — 点击位置后的信息面板</h2>
+<p class="subtitle">核心问题：地图上的交互点需要承载哪些信息？以下是三种不同信息深度的设计方案</p>
+
+<div class="options">
+  <div class="option" data-choice="light" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>轻量卡片 — 概要信息 + 跳转</h3>
+      <p>点击位置 → 弹出小型浮动卡片，显示：名称、类型、简短描述、关联人物数、关联事件数。点击展开 → 跳转至人物/时间线页面查看详情。类似地图 App 点击 POI 的效果。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="medium" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>侧边面板 — 同一位置的全景信息</h3>
+      <p>点击位置 → 侧边栏滑出，包含：详细描述、当前在此的人物列表（可筛选时间）、发生于此的事件时间线、所属势力/体系标签。所有数据在一个面板内，无需跳转。</p>
+    </div>
+  </div>
+  <div class="option" data-choice="deep" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>深度节点 — 多系统关系网</h3>
+      <p>点击位置 → 展开以该位置为中心的关系图谱：展示「谁来过这里 → 发生了什么事 → 涉及什么体系/元素 → 时间线上排在什么位置」。直接在地图上呈现节点关联线。</p>
+    </div>
+  </div>
+</div>
+
+<div class="mockup" style="margin-top:16px;">
+  <div class="mockup-header">方案 B 预览：点击「中央王城」后的侧边面板</div>
+  <div class="mockup-body" style="padding:16px;display:flex;gap:12px;">
+    <!-- 地图 -->
+    <div style="flex:1;background:linear-gradient(135deg,#1a2a4a,#243b6a);border-radius:6px;min-height:280px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:40%;left:35%;width:50px;height:50px;display:flex;align-items:center;justify-content:center;">
+        <div style="font-size:28px;filter:drop-shadow(0 0 6px #ffd700);">🏰</div>
+      </div>
+      <div style="position:absolute;top:30%;left:28%;color:#ffd700;font-size:10px;text-shadow:0 1px 3px #000;">中央王城</div>
+      <!-- 脉冲指示 -->
+      <div style="position:absolute;top:40%;left:35%;width:50px;height:50px;border:2px solid #ffd700;border-radius:50%;animation:pulse 2s infinite;opacity:0.6;"></div>
+    </div>
+    <!-- 侧面板 -->
+    <div style="width:220px;background:#0d1a2d;border-radius:6px;border:1px solid #333;padding:10px;flex-shrink:0;">
+      <div style="color:#ffd700;font-weight:600;font-size:14px;margin-bottom:6px;">🏰 中央王城</div>
+      <div style="font-size:10px;color:#888;margin-bottom:8px;">平原 · 大陆中部</div>
+      <div style="background:#1a2a2e;border-radius:4px;padding:6px;margin-bottom:6px;">
+        <div style="font-size:10px;color:#aaa;">艾泽拉王国的政治中心，始建于第三次纪元前200年，城墙高15丈...</div>
+      </div>
+      <div style="margin-bottom:6px;">
+        <div style="font-size:11px;color:#4a90d9;font-weight:600;margin-bottom:4px;">👥 当前人物 (3)</div>
+        <div style="font-size:10px;color:#aaa;">• 阿尔萨斯 — 国王</div>
+        <div style="font-size:10px;color:#aaa;">• 莉娜 — 宫廷法师</div>
+        <div style="font-size:10px;color:#aaa;">• 加里奥 — 禁卫队长</div>
+      </div>
+      <div style="margin-bottom:6px;">
+        <div style="font-size:11px;color:#5a8c4f;font-weight:600;margin-bottom:4px;">📅 关联事件 (2)</div>
+        <div style="font-size:10px;color:#aaa;">• 第三次纪元 147年 — 加冕典礼</div>
+        <div style="font-size:10px;color:#aaa;">• 第三次纪元 152年 — 暗影入侵</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:#d4a843;font-weight:600;margin-bottom:4px;">⚔️ 势力归属</div>
+        <div style="font-size:10px;color:#aaa;">艾泽拉王国 · 光明教廷</div>
+      </div>
+    </div>
+  </div>
+</div>

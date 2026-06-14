@@ -1,0 +1,123 @@
+<h2>三层图架构 — 逐层叠加、逐层依赖</h2>
+<p class="subtitle">每层独立管理，上层必须依赖下层。编辑器按层顺序操作，数据互相引用但不耦合</p>
+
+<div class="section">
+  <div style="display:flex;align-items:center;gap:8px;overflow-x:auto;padding:12px 0;">
+    <!-- L1 -->
+    <div style="flex-shrink:0;width:160px;border-radius:10px;overflow:hidden;border:2px solid #3a6fb5;">
+      <div style="background:#3a6fb5;color:#fff;padding:8px;text-align:center;font-weight:700;font-size:13px;">🌍 第一图层</div>
+      <div style="background:#0d1a2d;padding:12px;text-align:center;">
+        <div style="font-size:24px;margin:4px 0;">🌊 🟩</div>
+        <div style="color:#ccc;font-size:12px;margin-bottom:6px;">基础地形</div>
+        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+          <span style="background:#1e4080;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">海洋</span>
+          <span style="background:#4a7c3f;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">大陆</span>
+        </div>
+        <div style="font-size:9px;color:#88bbff;margin-top:6px;">网格单元格全覆盖<br/>互斥（非海即陆）</div>
+      </div>
+    </div>
+
+    <div style="color:#4a90d9;font-size:20px;flex-shrink:0;">┈→</div>
+
+    <!-- L2 -->
+    <div style="flex-shrink:0;width:180px;border-radius:10px;overflow:hidden;border:2px solid #5a8c4f;">
+      <div style="background:#5a8c4f;color:#fff;padding:8px;text-align:center;font-weight:700;font-size:13px;">🌿 第二图层</div>
+      <div style="background:#0d1a2d;padding:12px;text-align:center;">
+        <div style="font-size:24px;margin:4px 0;">⛰ 🌲 🏜 🌫</div>
+        <div style="color:#ccc;font-size:12px;margin-bottom:6px;">自然地形</div>
+        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+          <span style="background:#4a5a30;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">山脉</span>
+          <span style="background:#2d6020;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">森林</span>
+          <span style="background:#8a7a30;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">沙漠</span>
+          <span style="background:#4a90d9;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">河流</span>
+          <span style="background:#3a5a5e;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">沼泽</span>
+          <span style="background:#4a7a3f;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">丘陵</span>
+          <span style="background:#c8d8e8;color:#333;padding:2px 8px;border-radius:10px;font-size:10px;">雪原</span>
+          <span style="background:#aa4422;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">火山</span>
+        </div>
+        <div style="font-size:9px;color:#88bb88;margin-top:6px;">仅在「大陆」格上放置<br/>可选、可叠加</div>
+      </div>
+    </div>
+
+    <div style="color:#4a90d9;font-size:20px;flex-shrink:0;">┈→</div>
+
+    <!-- L3 -->
+    <div style="flex-shrink:0;width:160px;border-radius:10px;overflow:hidden;border:2px solid #d4a843;">
+      <div style="background:#d4a843;color:#1a1a2e;padding:8px;text-align:center;font-weight:700;font-size:13px;">🏗 第三图层</div>
+      <div style="background:#0d1a2d;padding:12px;text-align:center;">
+        <div style="font-size:24px;margin:4px 0;">🏰 🏘 🗼 ⚔️</div>
+        <div style="color:#ccc;font-size:12px;margin-bottom:6px;">人造建筑</div>
+        <div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;">
+          <span style="background:#8b7230;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">王城</span>
+          <span style="background:#7a6040;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">城镇</span>
+          <span style="background:#6a5a4a;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">要塞</span>
+          <span style="background:#5a5a5a;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">塔/碑</span>
+          <span style="background:#666;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;">...</span>
+        </div>
+        <div style="font-size:9px;color:#ffd700;margin-top:6px;">必须建于 L1 或 L2 之上<br/>不可独立存在</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mockup" style="margin-top:16px;">
+  <div class="mockup-header">叠加逻辑示意：一个网格单元经历了三层</div>
+  <div class="mockup-body" style="padding:16px;">
+    <div style="display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div class="label" style="margin-bottom:4px;">L1：基础</div>
+        <div style="width:80px;height:80px;background:#4a7c3f;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;">🟩</div>
+        <div style="font-size:10px;color:#aaa;">大陆</div>
+      </div>
+      <div style="color:#4a90d9;font-size:20px;">+</div>
+      <div style="text-align:center;">
+        <div class="label" style="margin-bottom:4px;">L2：自然</div>
+        <div style="width:80px;height:80px;background:#4a7c3f;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;position:relative;">
+          <span>⛰</span>
+        </div>
+        <div style="font-size:10px;color:#aaa;">覆盖山脉</div>
+      </div>
+      <div style="color:#4a90d9;font-size:20px;">+</div>
+      <div style="text-align:center;">
+        <div class="label" style="margin-bottom:4px;">L3：建筑</div>
+        <div style="width:80px;height:80px;background:#4a7c3f;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;position:relative;">
+          <span style="position:absolute;top:8px;font-size:14px;">⛰</span>
+          <span>🏰</span>
+        </div>
+        <div style="font-size:10px;color:#ffd700;">堡垒坐落于山脉</div>
+      </div>
+      <div style="color:#6ab05a;font-size:20px;">→</div>
+      <div style="text-align:center;">
+        <div style="width:100px;height:100px;background:linear-gradient(135deg,#1a2a4a,#243b6a);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;border:1px solid #4a90d9;">
+          <div style="font-size:32px;">🏰</div>
+          <div style="font-size:9px;color:#ffd700;">最终渲染</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:12px;">
+  <h3>依赖规则</h3>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #3a6fb5;">
+      <div style="font-weight:600;color:#fff;font-size:12px;">L1 → 独立存在</div>
+      <div style="font-size:10px;color:#888;">第一图层覆盖所有网格单元。每个格必须是「海洋」或「大陆」。编辑时先完成 L1 才能进入 L2。</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #5a8c4f;">
+      <div style="font-weight:600;color:#fff;font-size:12px;">L2 → 依赖 L1 大陆</div>
+      <div style="font-size:10px;color:#888;">自然地形只能放置在 L1 为「大陆」的格子上。一个格可以叠加多种 L2 类型（如丘陵+森林）。可选——可以没有 L2。</div>
+    </div>
+    <div style="background:#0d1a2d;padding:10px;border-radius:6px;border-left:3px solid #d4a843;">
+      <div style="font-weight:600;color:#fff;font-size:12px;">L3 → 依赖 L1 或 L2</div>
+      <div style="font-size:10px;color:#888;">建筑必须建于 L1「大陆」或 L2 自然地形之上。不可建在「海洋」。可选——可以没有 L3。</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>待确认</h3>
+  <div style="background:#1a1a2e;padding:12px;border-radius:6px;">
+    <p style="font-size:12px;color:#ccc;margin:0;">一个 L2 自然类型是否<span style="color:#4a90d9;">互斥</span>还是<span style="color:#ffd700;">可叠加</span>？比如：「丘陵 + 森林」是否允许并存于同一块大陆格上？（如果是，渲染需要处理层级叠加顺序）</p>
+  </div>
+</div>

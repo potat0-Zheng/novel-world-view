@@ -1,0 +1,177 @@
+<h2>世界创建流程：网格编辑 → 2.5D 呈现</h2>
+<p class="subtitle">基于单元格的土地划分 + 固定模型库叠加，编辑模式与预览模式对应关系</p>
+
+<div class="split">
+  <!-- 左侧：网格编辑器 -->
+  <div class="mockup">
+    <div class="mockup-header">编辑模式：10×10 网格选区</div>
+    <div class="mockup-body" style="padding:16px;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <div style="padding:4px 10px;border-radius:4px;font-size:11px;background:#4a7c3f;color:#fff;">🟩 大陆</div>
+        <div style="padding:4px 10px;border-radius:4px;font-size:11px;background:#3a6fb5;color:#fff;">🟦 海洋</div>
+        <div style="padding:4px 10px;border-radius:4px;font-size:11px;background:#555;color:#fff;">⬜ 未定</div>
+        <div style="flex:1;"></div>
+        <div style="padding:4px 10px;border-radius:4px;font-size:11px;background:#666;color:#fff;">🏰 放置模型</div>
+      </div>
+      <!-- Grid -->
+      <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:1px;background:#333;padding:1px;border-radius:4px;max-width:300px;">
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="1,1"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="2,1"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="3,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,1"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,1"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="1,2"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="2,2"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="3,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,2"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,2"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="1,3"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="2,3"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="3,3"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,3"></div>
+        <div style="aspect-ratio:1;background:#555;box-shadow:inset 0 0 0 2px #ffd700;" title="5,3 — 王城"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,3"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,3"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="8,3"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="9,3"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="10,3"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,4"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,4"></div>
+        <div style="aspect-ratio:1;background:#555;box-shadow:inset 0 0 0 2px #ff4444;" title="3,4 — 山脉"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,4"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,4"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,4"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,4"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="8,4"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="9,4"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="10,4"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="3,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,5"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="3,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,6"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="6,6"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="7,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,6"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="3,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,7"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="6,7"></div>
+        <div style="aspect-ratio:1;background:#4a7c3f;" title="7,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,7"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="3,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,8"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="3,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,9"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="1,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="2,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="3,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="4,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="5,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="6,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="7,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="8,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="9,10"></div>
+        <div style="aspect-ratio:1;background:#3a6fb5;" title="10,10"></div>
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:#888;">
+        金框 = 已放置建筑/自然模型的位置（王城、山脉）
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧：2.5D 预览 -->
+  <div class="mockup">
+    <div class="mockup-header">预览模式：2.5D 呈现效果</div>
+    <div class="mockup-body" style="padding:16px;display:flex;align-items:center;justify-content:center;min-height:360px;">
+      <div style="background:linear-gradient(135deg, #1a2a4a 0%, #243b6a 50%, #1e3558 100%);padding:30px;text-align:center;border-radius:8px;width:100%;">
+        <div style="position:relative;width:280px;height:180px;margin:0 auto;transform:rotateX(50deg) rotateZ(-30deg);transform-style:preserve-3d;">
+          <!-- 地形底板 -->
+          <div style="position:absolute;bottom:0;left:0;right:0;height:100%;background:linear-gradient(135deg, #4a7c3f 0%, #3a6330 100%);border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,0.3);"></div>
+          <!-- 海洋区域 -->
+          <div style="position:absolute;bottom:0;right:0;width:55%;height:100%;background:linear-gradient(135deg, #2a5599 0%, #1e4080 100%);border-radius:0 6px 6px 0;"></div>
+          <!-- 海岸线过渡 -->
+          <div style="position:absolute;bottom:0;left:42%;width:8%;height:100%;background:linear-gradient(90deg, #4a7c3f 0%, #3a7a5a 40%, #2a6a80 70%, #2a5599 100%);"></div>
+          <!-- 3D 建筑 -->
+          <div style="position:absolute;bottom:20%;right:52%;">
+            <div style="width:22px;height:30px;background:linear-gradient(180deg, #d4a843 0%, #b8943a 40%, #8b7230 100%);border-radius:2px;">
+              <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:8px solid #d4a843;"></div>
+            </div>
+          </div>
+          <!-- 山脉 -->
+          <div style="position:absolute;bottom:35%;right:58%;">
+            <div style="width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:24px solid #5a7a8a;"></div>
+            <div style="width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:16px solid #6a8a9a;position:absolute;left:-2px;bottom:24px;"></div>
+          </div>
+          <!-- 标签 -->
+          <div style="position:absolute;bottom:12%;right:48%;color:#ffd700;font-size:8px;text-shadow:0 1px 2px #000;">🏙 中央王城</div>
+          <div style="position:absolute;bottom:28%;right:52%;color:#ff8888;font-size:8px;text-shadow:0 1px 2px #000;">⛰ 北境山脉</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>数据分层架构</h3>
+  <div style="display:flex;gap:12px;align-items:center;padding:16px;background:#1a1a2e;border-radius:8px;overflow-x:auto;">
+    <div style="text-align:center;flex-shrink:0;">
+      <div style="padding:8px 16px;background:#2d5020;border-radius:6px;color:#fff;font-size:13px;white-space:nowrap;">🌍 地形层<br/><span style="font-size:10px;opacity:0.7;">大陆 / 海洋</span></div>
+    </div>
+    <div style="color:#4a90d9;font-size:18px;">+</div>
+    <div style="text-align:center;flex-shrink:0;">
+      <div style="padding:8px 16px;background:#5a3a10;border-radius:6px;color:#fff;font-size:13px;white-space:nowrap;">🏗 模型层<br/><span style="font-size:10px;opacity:0.7;">建筑 / 自然元素</span></div>
+    </div>
+    <div style="color:#4a90d9;font-size:18px;">+</div>
+    <div style="text-align:center;flex-shrink:0;">
+      <div style="padding:8px 16px;background:#3a2060;border-radius:6px;color:#fff;font-size:13px;white-space:nowrap;">📍 标记层<br/><span style="font-size:10px;opacity:0.7;">人物 / 事件 / 时间</span></div>
+    </div>
+    <div style="color:#4a90d9;font-size:18px;">→</div>
+    <div style="text-align:center;flex-shrink:0;padding:10px 18px;background:linear-gradient(135deg,#1a2a4a,#243b6a);border-radius:8px;border:1px solid #4a90d9;">
+      <div style="color:#fff;font-size:14px;">🎬 最终 2.5D 场景</div>
+      <div style="font-size:10px;color:#aaa;">可切换 2D 俯视</div>
+    </div>
+  </div>
+</div>
