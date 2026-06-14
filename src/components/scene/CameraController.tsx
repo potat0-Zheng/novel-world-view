@@ -1,27 +1,37 @@
 // src/components/scene/CameraController.tsx
 import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { PerspectiveCamera } from 'three';
+import { useThree, useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 import useWorldStore from '../../store/worldStore';
 
-// Camera angles
-const TILT_2_5D = Math.PI / 3;   // ~60° tilted from vertical
-const TILT_2D = 0;                // straight down (top-down)
-const DISTANCE = 14;              // camera distance from center
-const SWITCH_DURATION = 0.8;      // seconds for transition
+const TILT_2_5D = Math.PI / 3;   // ~60°
+const TILT_2D = 0;
+const DISTANCE = 14;
+const SWITCH_DURATION = 0.8;
 
 export default function CameraController() {
-  const cameraRef = useRef<PerspectiveCamera>(null!);
+  const camera = useThree(s => s.camera) as THREE.PerspectiveCamera;
   const viewMode = useWorldStore(s => s.viewMode);
   const currentTilt = useRef(TILT_2_5D);
+
+  // Set initial camera position immediately (before first frame)
+  if (camera && !(camera as any).__initialized) {
+    const gridSize = 10;
+    const tilt = TILT_2_5D;
+    camera.position.set(
+      gridSize / 2 + DISTANCE * Math.sin(tilt) * 0.5,
+      DISTANCE * Math.cos(tilt),
+      gridSize / 2 + DISTANCE * Math.sin(tilt) * 0.5,
+    );
+    camera.lookAt(gridSize / 2, 0, gridSize / 2);
+    (camera as any).__initialized = true;
+  }
 
   const targetTilt = viewMode === '2.5d' ? TILT_2_5D : TILT_2D;
 
   useFrame((_, delta) => {
-    if (!cameraRef.current) return;
-    const cam = cameraRef.current;
+    if (!camera) return;
 
-    // Smooth lerp toward target tilt
     const speed = 1 / SWITCH_DURATION;
     currentTilt.current += (targetTilt - currentTilt.current) * Math.min(delta * speed, 1);
     const tilt = currentTilt.current;
@@ -30,24 +40,15 @@ export default function CameraController() {
     const centerX = gridSize / 2;
     const centerZ = gridSize / 2;
 
-    // Position camera on an arc from side to top
-    cam.position.x = centerX + DISTANCE * Math.sin(tilt) * 0.5;
-    cam.position.y = DISTANCE * Math.cos(tilt);
-    cam.position.z = centerZ + DISTANCE * Math.sin(tilt) * 0.5;
+    camera.position.x = centerX + DISTANCE * Math.sin(tilt) * 0.5;
+    camera.position.y = DISTANCE * Math.cos(tilt);
+    camera.position.z = centerZ + DISTANCE * Math.sin(tilt) * 0.5;
 
-    cam.lookAt(centerX, 0, centerZ);
-    cam.updateProjectionMatrix();
+    camera.lookAt(centerX, 0, centerZ);
+    camera.updateProjectionMatrix();
 
-    // Store current tilt for cross-fade logic used by ModelLayer
-    (cam as any).__currentTilt = tilt;
+    (camera as any).__currentTilt = tilt;
   });
 
-  return (
-    <perspectiveCamera
-      ref={cameraRef}
-      fov={50}
-      near={0.1}
-      far={100}
-    />
-  );
+  return null;
 }

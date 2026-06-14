@@ -7,7 +7,6 @@ import { L1_TYPES } from '../data/terrainTypes';
 const GRID_SIZE = 10;
 
 export default function GridSetup() {
-  const initWorld = useWorldStore(s => s.initWorld);
   const loadWorld = useWorldStore(s => s.loadWorld);
   const finishSetup = useWorldStore(s => s.finishSetup);
 
@@ -27,14 +26,29 @@ export default function GridSetup() {
   };
 
   const handleConfirm = () => {
-    // Create the world data from the grid
-    initWorld('未命名世界');
-    const store = useWorldStore.getState();
+    // Build WorldData directly (single set, no 100 individual calls)
+    const cells: Record<string, import('../types/world').CellData> = {};
     for (let x = 0; x < GRID_SIZE; x++) {
       for (let y = 0; y < GRID_SIZE; y++) {
-        store.setCellL1({ x, y }, grid[y][x]);
+        const key = `${x}-${y}`;
+        const l1 = grid[y][x];
+        cells[key] = {
+          l1,
+          l2: l1 === 'continent' ? 'plain' : 'none',
+          l3ModelId: null,
+        };
       }
     }
+
+    const worldData: import('../types/world').WorldData = {
+      config: { name: '未命名世界', gridSize: GRID_SIZE },
+      cells,
+      entities: {},
+      locationIndex: {},
+      timeIndex: {},
+    };
+
+    loadWorld(worldData);
     finishSetup();
   };
 
