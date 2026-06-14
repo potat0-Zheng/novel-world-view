@@ -74,4 +74,5 @@ export interface WorldState {
   selectedModelId: string | null;
   selectedCellKey: CoordKey | null;
   isDirty: boolean;
+  setupComplete: boolean;
 }
