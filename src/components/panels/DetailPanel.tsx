@@ -15,8 +15,16 @@ export default function DetailPanel() {
 
   const coord = parseCoordKey(selectedCellKey);
   const l1Name = L1_TYPES[cell.l1]?.name || cell.l1;
-  const l2Name = cell.l2 !== 'none' ? (L2_TYPES[cell.l2]?.name || cell.l2) : '无';
-  const modelDef = cell.l3ModelId ? getModelById(cell.l3ModelId) : null;
+
+  // Summarise sub-cell L2 types
+  const l2Set = new Set(cell.l2.filter(t => t !== 'none' && t !== 'plain'));
+  const l2Summary = l2Set.size > 0
+    ? [...l2Set].map(t => L2_TYPES[t]?.name || t).join('、')
+    : '无';
+
+  // First model found across sub-cells
+  const firstModelId = cell.l3.find(id => id !== null) || null;
+  const modelDef = firstModelId ? getModelById(firstModelId) : null;
 
   const entityIds = world.locationIndex[selectedCellKey] || [];
   const entities = entityIds.map(id => world.entities[id]).filter(Boolean);
@@ -32,7 +40,7 @@ export default function DetailPanel() {
         {modelDef?.name || `位置 (${coord.x}, ${coord.y})`}
       </div>
       <div style={{ color: '#888', fontSize: 12, marginBottom: 12 }}>
-        坐标 ({coord.x}, {coord.y}) · {l1Name} · {l2Name}
+        坐标 ({coord.x}, {coord.y}) · {l1Name} · {l2Summary}
       </div>
       <hr style={{ borderColor: '#333', margin: '8px 0' }} />
 

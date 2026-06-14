@@ -1,7 +1,7 @@
 // src/components/scene/NatureMarkers.tsx
 import { useMemo } from 'react';
 import useWorldStore from '../../store/worldStore';
-import { coordKey } from '../../types/world';
+import { coordKey, SUB_GRID } from '../../types/world';
 
 export default function NatureMarkers() {
   const world = useWorldStore(s => s.world);
@@ -9,13 +9,27 @@ export default function NatureMarkers() {
 
   const markers = useMemo(() => {
     const items: { key: string; x: number; z: number; type: string }[] = [];
-    for (let x = 0; x < gridSize; x++) {
-      for (let y = 0; y < gridSize; y++) {
-        const key = coordKey({ x, y });
+    const cellSize = 1 / SUB_GRID;
+    const halfCell = cellSize / 2;
+
+    for (let cx = 0; cx < gridSize; cx++) {
+      for (let cy = 0; cy < gridSize; cy++) {
+        const key = coordKey({ x: cx, y: cy });
         const cell = world.cells[key];
         if (!cell || cell.l1 !== 'continent') continue;
-        if (cell.l2 !== 'none' && cell.l2 !== 'plain') {
-          items.push({ key, x: x + 0.5, z: y + 0.5, type: cell.l2 });
+
+        for (let sx = 0; sx < SUB_GRID; sx++) {
+          for (let sy = 0; sy < SUB_GRID; sy++) {
+            const l2 = cell.l2[sx + sy * SUB_GRID];
+            if (!l2 || l2 === 'none' || l2 === 'plain') continue;
+
+            items.push({
+              key: `${key}-${sx}-${sy}`,
+              x: cx + sx * cellSize + halfCell,
+              z: cy + sy * cellSize + halfCell,
+              type: l2,
+            });
+          }
         }
       }
     }
@@ -27,8 +41,8 @@ export default function NatureMarkers() {
       {markers.map(m => (
         <group key={m.key} position={[m.x, 0, m.z]}>
           {m.type === 'mountain' && (
-            <mesh position={[0, 0.3, 0]}>
-              <coneGeometry args={[0.4, 0.6, 4]} />
+            <mesh position={[0, 0.18, 0]}>
+              <coneGeometry args={[0.22, 0.36, 4]} />
               <meshStandardMaterial color="#6a7a5a" roughness={0.8} />
             </mesh>
           )}
@@ -36,11 +50,11 @@ export default function NatureMarkers() {
             <>
               {[0, 1, 2].map(i => (
                 <mesh key={i} position={[
-                  Math.cos(i * 2.09) * 0.15,
-                  0.2,
-                  Math.sin(i * 2.09) * 0.15
+                  Math.cos(i * 2.09) * 0.08,
+                  0.12,
+                  Math.sin(i * 2.09) * 0.08,
                 ]}>
-                  <sphereGeometry args={[0.15, 6, 6]} />
+                  <sphereGeometry args={[0.08, 6, 6]} />
                   <meshStandardMaterial color="#2d6b20" roughness={0.9} />
                 </mesh>
               ))}

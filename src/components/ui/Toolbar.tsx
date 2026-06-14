@@ -19,9 +19,11 @@ export default function Toolbar() {
   const worldName = useWorldStore(s => s.world.config.name);
   const focusMode = useWorldStore(s => s.focusMode);
   const viewFlipped = useWorldStore(s => s.viewFlipped);
+  const appMode = useWorldStore(s => s.appMode);
   const selectedCellKey = useWorldStore(s => s.selectedCellKey);
   const setFocusMode = useWorldStore(s => s.setFocusMode);
   const setViewFlipped = useWorldStore(s => s.setViewFlipped);
+  const setAppMode = useWorldStore(s => s.setAppMode);
 
   const handleSave = () => {
     const state = useWorldStore.getState();
@@ -87,7 +89,12 @@ export default function Toolbar() {
     setViewFlipped(!viewFlipped);
   };
 
+  const handleAppModeToggle = () => {
+    setAppMode(appMode === 'edit' ? 'browse' : 'edit');
+  };
+
   const isOverview = focusMode === 'overview';
+  const isEditing = appMode === 'edit';
 
   return (
     <div style={{
@@ -99,6 +106,17 @@ export default function Toolbar() {
       <span style={{ color: '#ffd700', fontWeight: 700, fontSize: 14 }}>
         {worldName}
       </span>
+
+      {/* Edit / Browse toggle */}
+      <button onClick={handleAppModeToggle}
+        style={{
+          ...btnStyle,
+          border: isEditing ? '1px solid #ff9800' : '1px solid #4a90d9',
+          color: isEditing ? '#ff9800' : '#4a90d9',
+          fontWeight: 600,
+        }}>
+        {isEditing ? '✏️ 编辑中' : '👁 浏览'}
+      </button>
 
       {/* Mode indicator */}
       {!isOverview && (

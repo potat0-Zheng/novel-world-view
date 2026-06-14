@@ -28,11 +28,23 @@ export interface ModelDef {
   size: [number, number, number]; // [w, h, d]
 }
 
+// === Sub-grid ===
+export const SUB_GRID = 2; // each cell subdivides into SUB_GRID × SUB_GRID for L2/L3
+export const SUB_COUNT = SUB_GRID * SUB_GRID;
+export function subIndex(sx: number, sy: number): number { return sx + sy * SUB_GRID; }
+
+function makeSubL2(): TerrainL2[] { return Array(SUB_COUNT).fill('none' as TerrainL2); }
+function makeSubL3(): (string | null)[] { return Array(SUB_COUNT).fill(null); }
+
 // === Cell ===
 export interface CellData {
   l1: TerrainL1;
-  l2: TerrainL2;
-  l3ModelId: string | null;
+  l2: TerrainL2[];        // [SUB_COUNT] row-major, one per sub-cell
+  l3: (string | null)[];  // [SUB_COUNT] row-major, modelId or null
+}
+
+export function createDefaultCell(l1: TerrainL1 = 'ocean'): CellData {
+  return { l1, l2: makeSubL2(), l3: makeSubL3() };
 }
 
 // === Entity (用于后续子系统的数据关联锚点) ===
@@ -65,9 +77,11 @@ export interface WorldData {
 export type EditorMode = 'l1_paint' | 'l2_paint' | 'l3_place' | 'view';
 export type ViewMode = '2.5d' | '2d';
 export type FocusMode = 'overview' | 'focus';
+export type AppMode = 'browse' | 'edit';
 
 export interface WorldState {
   world: WorldData;
+  appMode: AppMode;
   editorMode: EditorMode;
   viewMode: ViewMode;
   focusMode: FocusMode;
@@ -76,6 +90,7 @@ export interface WorldState {
   selectedPaintL2: TerrainL2;
   selectedModelId: string | null;
   selectedCellKey: CoordKey | null;
+  focusedCellKey: CoordKey | null;   // cell being edited (shows 2×2 grid, camera zooms in)
   isDirty: boolean;
   setupComplete: boolean;
 }

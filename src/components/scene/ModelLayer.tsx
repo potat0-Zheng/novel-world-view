@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import useWorldStore from '../../store/worldStore';
-import { coordKey } from '../../types/world';
+import { coordKey, SUB_GRID } from '../../types/world';
 import { getModelById } from '../../data/modelLibrary';
 
 export default function ModelLayer() {
@@ -15,12 +15,27 @@ export default function ModelLayer() {
 
   const models = useMemo(() => {
     const items: { key: string; x: number; z: number; modelId: string }[] = [];
-    for (let x = 0; x < gridSize; x++) {
-      for (let y = 0; y < gridSize; y++) {
-        const key = coordKey({ x, y });
-        const cell = world.cells[key];
-        if (cell?.l3ModelId) {
-          items.push({ key, x: x + 0.5, z: y + 0.5, modelId: cell.l3ModelId });
+    const cellSize = 1 / SUB_GRID;
+    const halfCell = cellSize / 2;
+
+    for (let cx = 0; cx < gridSize; cx++) {
+      for (let cy = 0; cy < gridSize; cy++) {
+        const cellKey = coordKey({ x: cx, y: cy });
+        const cell = world.cells[cellKey];
+        if (!cell || cell.l1 !== 'continent') continue;
+
+        for (let sx = 0; sx < SUB_GRID; sx++) {
+          for (let sy = 0; sy < SUB_GRID; sy++) {
+            const modelId = cell.l3[sx + sy * SUB_GRID];
+            if (!modelId) continue;
+
+            items.push({
+              key: `${cellKey}-${sx}-${sy}`,
+              x: cx + sx * cellSize + halfCell,
+              z: cy + sy * cellSize + halfCell,
+              modelId,
+            });
+          }
         }
       }
     }
@@ -48,7 +63,7 @@ export default function ModelLayer() {
       {models.map(m => {
         const def = getModelById(m.modelId);
         if (!def) return null;
-        const isSelected = selectedKey === m.key;
+        const isSelected = selectedKey != null && m.key.startsWith(selectedKey);
         return (
           <group key={m.key}>
             {/* Colored box placeholder — replace with GLTF when available */}
@@ -68,7 +83,7 @@ export default function ModelLayer() {
             {/* Selection highlight ring */}
             {isSelected && (
               <mesh position={[m.x, 0.02, m.z]} rotation={[-Math.PI / 2, 0, 0]}>
-                <ringGeometry args={[0.6, 0.8, 16]} />
+                <ringGeometry args={[0.35, 0.5, 16]} />
                 <meshBasicMaterial color="#ffd700" transparent opacity={0.8} />
               </mesh>
             )}

@@ -5,6 +5,7 @@ import TerrainMesh from './TerrainMesh';
 import NatureMarkers from './NatureMarkers';
 import ModelLayer from './ModelLayer';
 import ClickHandler from './ClickHandler';
+import FocusedCellGrid from './FocusedCellGrid';
 import useWorldStore from '../../store/worldStore';
 
 export default function WorldScene() {
@@ -34,6 +35,9 @@ export default function WorldScene() {
 
       {/* Click interaction */}
       <ClickHandler />
+
+      {/* 2×2 grid overlay on focused cell (edit mode) */}
+      <FocusedCellGrid />
 
       {/* Grid helper visible in 2D mode */}
       {viewMode === '2d' && (

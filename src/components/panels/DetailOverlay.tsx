@@ -12,7 +12,8 @@ export default function DetailOverlay() {
 
   const coord = parseCoordKey(selectedCellKey);
   const cell = world.cells[selectedCellKey];
-  const modelDef = cell?.l3ModelId ? getModelById(cell.l3ModelId) : null;
+  const firstModelId = cell?.l3?.find(id => id !== null) || null;
+  const modelDef = firstModelId ? getModelById(firstModelId) : null;
 
   if (!cell) return null;
 

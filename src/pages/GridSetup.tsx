@@ -32,10 +32,12 @@ export default function GridSetup() {
       for (let y = 0; y < GRID_SIZE; y++) {
         const key = `${x}-${y}`;
         const l1 = grid[y][x];
+        const subL2: import('../types/world').TerrainL2[] =
+          Array(4).fill(l1 === 'continent' ? 'plain' : 'none') as import('../types/world').TerrainL2[];
         cells[key] = {
           l1,
-          l2: l1 === 'continent' ? 'plain' : 'none',
-          l3ModelId: null,
+          l2: subL2,
+          l3: Array(4).fill(null) as (string | null)[],
         };
       }
     }
