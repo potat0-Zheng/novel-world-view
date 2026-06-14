@@ -1,7 +1,7 @@
 // src/store/worldStore.ts
 import { create } from 'zustand';
 import type {
-  WorldData, WorldState, EditorMode, ViewMode,
+  WorldData, WorldState, EditorMode, ViewMode, FocusMode,
   CoordKey, GridCoord, TerrainL1, TerrainL2, Entity,
 } from '../types/world';
 import { coordKey } from '../types/world';
@@ -32,6 +32,8 @@ const useWorldStore = create<WorldState & {
   setCellModel: (coord: GridCoord, modelId: string | null) => void;
   setEditorMode: (mode: EditorMode) => void;
   setViewMode: (mode: ViewMode) => void;
+  setFocusMode: (mode: FocusMode) => void;
+  setViewFlipped: (flipped: boolean) => void;
   setSelectedPaintL1: (t: TerrainL1) => void;
   setSelectedPaintL2: (t: TerrainL2) => void;
   setSelectedModelId: (id: string | null) => void;
@@ -43,6 +45,8 @@ const useWorldStore = create<WorldState & {
   world: createEmptyWorld('未命名世界', GRID_SIZE),
   editorMode: 'l1_paint',
   viewMode: '2.5d',
+  focusMode: 'overview' as FocusMode,
+  viewFlipped: false,
   selectedPaintL1: 'continent',
   selectedPaintL2: 'plain',
   selectedModelId: null,
@@ -93,6 +97,8 @@ const useWorldStore = create<WorldState & {
 
   setEditorMode: (mode) => set({ editorMode: mode }),
   setViewMode: (mode) => set({ viewMode: mode }),
+  setFocusMode: (mode) => set({ focusMode: mode }),
+  setViewFlipped: (flipped) => set({ viewFlipped: flipped }),
   setSelectedPaintL1: (t) => set({ selectedPaintL1: t }),
   setSelectedPaintL2: (t) => set({ selectedPaintL2: t }),
   setSelectedModelId: (id) => set({ selectedModelId: id }),

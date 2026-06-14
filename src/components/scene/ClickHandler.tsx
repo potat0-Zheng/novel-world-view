@@ -55,7 +55,7 @@ export default function ClickHandler() {
             }
             break;
           case 'view':
-            setSelectedCellKey(coord);
+            setSelectedCellKey(key);
             break;
         }
       }

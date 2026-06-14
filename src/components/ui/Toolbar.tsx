@@ -1,3 +1,4 @@
+import useWorldStore from '../../store/worldStore';
 import ViewToggle from './ViewToggle';
 
 // Simple save/load using localStorage for demo (IndexedDB in full implementation)
@@ -15,15 +16,17 @@ const btnStyle: React.CSSProperties = {
 };
 
 export default function Toolbar() {
-  const worldName = '未命名世界'; // placeholder — will read from store later
+  const worldName = useWorldStore(s => s.world.config.name);
+  const focusMode = useWorldStore(s => s.focusMode);
+  const viewFlipped = useWorldStore(s => s.viewFlipped);
+  const selectedCellKey = useWorldStore(s => s.selectedCellKey);
+  const setFocusMode = useWorldStore(s => s.setFocusMode);
+  const setViewFlipped = useWorldStore(s => s.setViewFlipped);
 
   const handleSave = () => {
-    // Demo: save entire world state as JSON to localStorage
-    const state = (window as any).__worldStore?.getState?.();
-    if (state) {
-      saveToLocalStorage(JSON.stringify(state.world));
-      alert('已保存到本地存储');
-    }
+    const state = useWorldStore.getState();
+    saveToLocalStorage(JSON.stringify(state.world));
+    alert('已保存到本地存储');
   };
 
   const handleLoad = () => {
@@ -31,11 +34,8 @@ export default function Toolbar() {
     if (json) {
       try {
         const data = JSON.parse(json);
-        const state = (window as any).__worldStore?.getState?.();
-        if (state?.loadWorld) {
-          state.loadWorld(data);
-          alert('已加载');
-        }
+        useWorldStore.getState().loadWorld(data);
+        alert('已加载');
       } catch {
         alert('加载失败：数据格式错误');
       }
@@ -45,8 +45,7 @@ export default function Toolbar() {
   };
 
   const handleExport = () => {
-    const state = (window as any).__worldStore?.getState?.();
-    if (!state) return;
+    const state = useWorldStore.getState();
     const json = JSON.stringify(state.world, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -67,17 +66,28 @@ export default function Toolbar() {
       try {
         const text = await file.text();
         const data = JSON.parse(text);
-        const state = (window as any).__worldStore?.getState?.();
-        if (state?.loadWorld) {
-          state.loadWorld(data);
-          alert('已导入');
-        }
+        useWorldStore.getState().loadWorld(data);
+        alert('已导入');
       } catch {
         alert('导入失败：文件格式错误');
       }
     };
     input.click();
   };
+
+  const handleOverview = () => {
+    setViewFlipped(false);
+    setFocusMode('overview');
+  };
+
+  const handleFlip = () => {
+    if (focusMode === 'overview') {
+      setFocusMode('focus');
+    }
+    setViewFlipped(!viewFlipped);
+  };
+
+  const isOverview = focusMode === 'overview';
 
   return (
     <div style={{
@@ -90,7 +100,34 @@ export default function Toolbar() {
         {worldName}
       </span>
 
+      {/* Mode indicator */}
+      {!isOverview && (
+        <span style={{ color: '#888', fontSize: 10 }}>聚焦中</span>
+      )}
+
       <div style={{ flex: 1 }} />
+
+      {/* Overview reset — always available */}
+      <button onClick={handleOverview}
+        style={{
+          ...btnStyle,
+          border: isOverview ? '1px solid #333' : '1px solid #ffd700',
+          color: isOverview ? '#666' : '#ffd700',
+          opacity: isOverview ? 0.5 : 1,
+        }}>
+        🗺 总览
+      </button>
+
+      {/* Flip view direction (2.5D only — swaps SE ↔ NW) */}
+      <button onClick={handleFlip}
+        title="翻转俯瞰方向（东南 ⇄ 西北）"
+        style={{
+          ...btnStyle,
+          border: viewFlipped ? '1px solid #4a90d9' : '1px solid #333',
+          color: viewFlipped ? '#4a90d9' : '#888',
+        }}>
+        🔄 翻转
+      </button>
 
       <ViewToggle />
       <button onClick={handleSave} style={btnStyle}>💾 保存</button>

@@ -64,11 +64,14 @@ export interface WorldData {
 // === Editor state ===
 export type EditorMode = 'l1_paint' | 'l2_paint' | 'l3_place' | 'view';
 export type ViewMode = '2.5d' | '2d';
+export type FocusMode = 'overview' | 'focus';
 
 export interface WorldState {
   world: WorldData;
   editorMode: EditorMode;
   viewMode: ViewMode;
+  focusMode: FocusMode;
+  viewFlipped: boolean;
   selectedPaintL1: TerrainL1;
   selectedPaintL2: TerrainL2;
   selectedModelId: string | null;
