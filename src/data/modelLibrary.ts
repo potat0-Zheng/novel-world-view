@@ -2,7 +2,7 @@
 // 6 demo models — one per category. Using colored box placeholders.
 // Replace with GLTF paths when real models are imported.
 
-import type { ModelDef, ModelCategory } from '../types/world';
+import type { ModelDef, ModelCategory } from '../types';
 
 // Model sizes are in [width, height, depth] — all within 0.85×0.85 footprint
 // so they fit inside a single 1×1 terrain cell

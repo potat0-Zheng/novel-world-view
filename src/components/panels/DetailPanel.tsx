@@ -1,6 +1,6 @@
 // src/components/panels/DetailPanel.tsx
 import useWorldStore from '../../store/worldStore';
-import { parseCoordKey } from '../../types/world';
+import { parseCoordKey } from '../../types';
 import { L1_TYPES, L2_TYPES } from '../../data/terrainTypes';
 import { getModelById } from '../../data/modelLibrary';
 

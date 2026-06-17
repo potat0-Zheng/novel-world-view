@@ -1,7 +1,7 @@
 // src/components/scene/TerrainMesh.tsx
 import { useMemo } from 'react';
 import useWorldStore from '../../store/worldStore';
-import { coordKey } from '../../types/world';
+import { coordKey } from '../../types';
 
 interface Props { gridSize: number; }
 

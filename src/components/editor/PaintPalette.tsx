@@ -1,5 +1,5 @@
 import useWorldStore from '../../store/worldStore';
-import { TERRAIN_L1_OPTIONS, TERRAIN_L2_OPTIONS } from '../../types/world';
+import { TERRAIN_L1_OPTIONS, TERRAIN_L2_OPTIONS } from '../../types';
 
 export default function PaintPalette() {
   const editorMode = useWorldStore(s => s.editorMode);

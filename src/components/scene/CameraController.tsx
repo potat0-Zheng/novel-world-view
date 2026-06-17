@@ -21,7 +21,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { MapControls } from '@react-three/drei';
 import * as THREE from 'three';
 import useWorldStore from '../../store/worldStore';
-import { parseCoordKey } from '../../types/world';
+import { parseCoordKey } from '../../types';
 
 // ---- constants ----
 const TILT_2_5D   = Math.PI / 3;
@@ -204,8 +204,9 @@ export default function CameraController() {
 
   // ── Per-frame ──
   useFrame((_, delta) => {
-    const ctrl = controlsRef.current;
-    if (!ctrl) return;
+    try {
+      const ctrl = controlsRef.current;
+      if (!ctrl) return;
 
     const fm         = useWorldStore.getState().focusMode;
     const isOverview = fm === 'overview';
@@ -362,6 +363,9 @@ export default function CameraController() {
     //     overview (entering animation / steady lock both need it). ──
     if (isOverview || anglesChanged) {
       syncCamera(ctrl);
+    }
+    } catch (err) {
+      console.error('[CameraController] useFrame error:', err);
     }
   });
 

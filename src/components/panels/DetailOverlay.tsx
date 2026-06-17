@@ -1,6 +1,6 @@
 // src/components/panels/DetailOverlay.tsx
 import useWorldStore from '../../store/worldStore';
-import { parseCoordKey } from '../../types/world';
+import { parseCoordKey } from '../../types';
 import { getModelById } from '../../data/modelLibrary';
 
 export default function DetailOverlay() {

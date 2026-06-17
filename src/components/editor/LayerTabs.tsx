@@ -1,5 +1,5 @@
 import useWorldStore from '../../store/worldStore';
-import type { EditorMode } from '../../types/world';
+import type { EditorMode } from '../../types';
 
 const TABS: { mode: EditorMode; label: string; icon: string }[] = [
   { mode: 'l1_paint', label: 'L1 地形', icon: '🌍' },

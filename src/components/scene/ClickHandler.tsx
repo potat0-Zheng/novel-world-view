@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import useWorldStore from '../../store/worldStore';
-import { coordKey, SUB_GRID } from '../../types/world';
+import { coordKey, SUB_GRID } from '../../types';
 
 export default function ClickHandler() {
   const { camera, gl } = useThree();

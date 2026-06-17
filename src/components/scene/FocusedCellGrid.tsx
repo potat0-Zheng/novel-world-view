@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react';
 import useWorldStore from '../../store/worldStore';
-import { parseCoordKey, SUB_GRID } from '../../types/world';
+import { parseCoordKey, SUB_GRID } from '../../types';
 
 export default function FocusedCellGrid() {
   const focusedCellKey = useWorldStore(s => s.focusedCellKey);

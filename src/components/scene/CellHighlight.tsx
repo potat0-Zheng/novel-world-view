@@ -12,7 +12,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import useWorldStore from '../../store/worldStore';
-import { coordKey, parseCoordKey } from '../../types/world';
+import { coordKey, parseCoordKey } from '../../types';
 
 // ── constants ──────────────────────────────────────────────
 const LINE_COLOR     = '#b8860b'; // dark goldenrod

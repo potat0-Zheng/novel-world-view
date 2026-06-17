@@ -1,10 +1,22 @@
 // src/store/worldStore.ts
-import { create } from 'zustand';
+//
+// Zustand single-store composed from three slices (slice pattern).
+// Slices can access each other via get() — e.g. editor actions read
+// world data through get().world.
+//
+//   worldSlice   — domain data (cells, entities, indices)
+//   editorSlice  — editor UI (mode, paint selection, highlight)
+//   viewSlice    — camera / view (viewMode, focusMode, flip, appMode)
+
+import { create, type StateCreator } from 'zustand';
 import type {
-  WorldData, WorldState, EditorMode, ViewMode, FocusMode, AppMode,
+  WorldData, EditorMode, ViewMode, FocusMode, AppMode,
   CoordKey, GridCoord, TerrainL1, TerrainL2, Entity,
-} from '../types/world';
-import { coordKey, createDefaultCell, SUB_GRID } from '../types/world';
+} from '../types';
+import { coordKey, createDefaultCell, SUB_GRID } from '../types';
+
+// ── helpers ──────────────────────────────────────────────
+const GRID_SIZE = 10;
 
 function createEmptyWorld(name: string, gridSize: number): WorldData {
   const cells: WorldData['cells'] = {};
@@ -22,48 +34,74 @@ function createEmptyWorld(name: string, gridSize: number): WorldData {
   };
 }
 
-const GRID_SIZE = 10;
+// ════════════════════════════════════════════════════════════
+//  Slice type definitions
+// ════════════════════════════════════════════════════════════
 
-const useWorldStore = create<WorldState & {
+export interface WorldDataSlice {
+  world: WorldData;
+  isDirty: boolean;
+  setupComplete: boolean;
+
   initWorld: (name?: string) => void;
+  loadWorld: (data: WorldData) => void;
+  finishSetup: () => void;
   setCellL1: (coord: GridCoord, type: TerrainL1) => void;
   setCellL2: (coord: GridCoord, sx: number, sy: number, type: TerrainL2) => void;
   setCellModel: (coord: GridCoord, sx: number, sy: number, modelId: string | null) => void;
+  addEntity: (e: Entity) => void;
+}
+
+export interface EditorSlice {
+  editorMode: EditorMode;
+  focusedCellKey: CoordKey | null;
+  selectedPaintL1: TerrainL1;
+  selectedPaintL2: TerrainL2;
+  selectedModelId: string | null;
+  highlightMode: boolean;
+  hoveredCellKey: CoordKey | null;
+
   setEditorMode: (mode: EditorMode) => void;
-  setViewMode: (mode: ViewMode) => void;
-  setFocusMode: (mode: FocusMode) => void;
-  setViewFlipped: (flipped: boolean) => void;
-  setAppMode: (mode: AppMode) => void;
   setFocusedCellKey: (key: CoordKey | null) => void;
   setSelectedPaintL1: (t: TerrainL1) => void;
   setSelectedPaintL2: (t: TerrainL2) => void;
   setSelectedModelId: (id: string | null) => void;
-  setSelectedCellKey: (key: CoordKey | null) => void;
   setHighlightMode: (on: boolean) => void;
   setHoveredCellKey: (key: CoordKey | null) => void;
-  finishSetup: () => void;
-  loadWorld: (data: WorldData) => void;
-  addEntity: (e: Entity) => void;
-}>((set, get) => ({
+}
+
+export interface ViewSlice {
+  viewMode: ViewMode;
+  focusMode: FocusMode;
+  viewFlipped: boolean;
+  appMode: AppMode;
+  selectedCellKey: CoordKey | null;
+
+  setViewMode: (mode: ViewMode) => void;
+  setFocusMode: (mode: FocusMode) => void;
+  setViewFlipped: (flipped: boolean) => void;
+  setAppMode: (mode: AppMode) => void;
+  setSelectedCellKey: (key: CoordKey | null) => void;
+}
+
+export type StoreState = WorldDataSlice & EditorSlice & ViewSlice;
+
+// ════════════════════════════════════════════════════════════
+//  worldSlice — domain data
+// ════════════════════════════════════════════════════════════
+
+const createWorldSlice: StateCreator<StoreState, [], [], WorldDataSlice> = (set, get) => ({
   world: createEmptyWorld('未命名世界', GRID_SIZE),
-  editorMode: 'l1_paint',
-  viewMode: '2.5d',
-  focusMode: 'overview' as FocusMode,
-  viewFlipped: false,
-  appMode: 'browse' as AppMode,
-  focusedCellKey: null,
-  selectedPaintL1: 'continent',
-  selectedPaintL2: 'plain',
-  selectedModelId: null,
-  selectedCellKey: null,
   isDirty: false,
   setupComplete: false,
-  highlightMode: false,
-  hoveredCellKey: null,
 
   initWorld: (name = '未命名世界') => {
     set({ world: createEmptyWorld(name, GRID_SIZE), isDirty: true });
   },
+
+  loadWorld: (data) => set({ world: data, isDirty: false }),
+
+  finishSetup: () => set({ setupComplete: true }),
 
   setCellL1: (coord, type) => {
     const key = coordKey(coord);
@@ -73,11 +111,9 @@ const useWorldStore = create<WorldState & {
     if (!cell) return;
 
     if (type === 'continent') {
-      // Default every sub-cell L2 to plain if currently none
       const l2 = cell.l2.map(t => (t === 'none' ? 'plain' as TerrainL2 : t));
       cells[key] = { ...cell, l1: type, l2 };
     } else {
-      // Ocean — clear all sub-L2 and sub-L3
       cells[key] = createDefaultCell('ocean');
     }
     world.cells = cells;
@@ -118,23 +154,6 @@ const useWorldStore = create<WorldState & {
     set({ world, isDirty: true });
   },
 
-  setEditorMode: (mode) => set({ editorMode: mode }),
-  setViewMode: (mode) => set({ viewMode: mode }),
-  setFocusMode: (mode) => set({ focusMode: mode }),
-  setViewFlipped: (flipped) => set({ viewFlipped: flipped }),
-  setAppMode: (mode) => set({ appMode: mode, focusedCellKey: null }),
-  setFocusedCellKey: (key) => set({ focusedCellKey: key }),
-  setSelectedPaintL1: (t) => set({ selectedPaintL1: t }),
-  setSelectedPaintL2: (t) => set({ selectedPaintL2: t }),
-  setSelectedModelId: (id) => set({ selectedModelId: id }),
-  setSelectedCellKey: (key) => set({ selectedCellKey: key }),
-  setHighlightMode: (on) => set({ highlightMode: on }),
-  setHoveredCellKey: (key) => set({ hoveredCellKey: key }),
-
-  finishSetup: () => set({ setupComplete: true }),
-
-  loadWorld: (data) => set({ world: data, isDirty: false }),
-
   addEntity: (e) => {
     const world = { ...get().world };
     world.entities = { ...world.entities, [e.id]: e };
@@ -151,6 +170,56 @@ const useWorldStore = create<WorldState & {
     }
     set({ world, isDirty: true });
   },
+});
+
+// ════════════════════════════════════════════════════════════
+//  editorSlice — editor UI state
+// ════════════════════════════════════════════════════════════
+
+const createEditorSlice: StateCreator<StoreState, [], [], EditorSlice> = (set) => ({
+  editorMode: 'l1_paint',
+  focusedCellKey: null,
+  selectedPaintL1: 'continent',
+  selectedPaintL2: 'plain',
+  selectedModelId: null,
+  highlightMode: false,
+  hoveredCellKey: null,
+
+  setEditorMode: (mode) => set({ editorMode: mode }),
+  setFocusedCellKey: (key) => set({ focusedCellKey: key }),
+  setSelectedPaintL1: (t) => set({ selectedPaintL1: t }),
+  setSelectedPaintL2: (t) => set({ selectedPaintL2: t }),
+  setSelectedModelId: (id) => set({ selectedModelId: id }),
+  setHighlightMode: (on) => set({ highlightMode: on }),
+  setHoveredCellKey: (key) => set({ hoveredCellKey: key }),
+});
+
+// ════════════════════════════════════════════════════════════
+//  viewSlice — camera / view state
+// ════════════════════════════════════════════════════════════
+
+const createViewSlice: StateCreator<StoreState, [], [], ViewSlice> = (set) => ({
+  viewMode: '2.5d',
+  focusMode: 'overview' as FocusMode,
+  viewFlipped: false,
+  appMode: 'browse' as AppMode,
+  selectedCellKey: null,
+
+  setViewMode: (mode) => set({ viewMode: mode }),
+  setFocusMode: (mode) => set({ focusMode: mode }),
+  setViewFlipped: (flipped) => set({ viewFlipped: flipped }),
+  setAppMode: (mode) => set({ appMode: mode, focusedCellKey: null }),
+  setSelectedCellKey: (key) => set({ selectedCellKey: key }),
+});
+
+// ════════════════════════════════════════════════════════════
+//  Composed store
+// ════════════════════════════════════════════════════════════
+
+const useWorldStore = create<StoreState>()((...a) => ({
+  ...createWorldSlice(...a),
+  ...createEditorSlice(...a),
+  ...createViewSlice(...a),
 }));
 
 export default useWorldStore;

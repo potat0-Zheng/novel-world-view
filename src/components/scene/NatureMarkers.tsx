@@ -1,7 +1,7 @@
 // src/components/scene/NatureMarkers.tsx
 import { useMemo } from 'react';
 import useWorldStore from '../../store/worldStore';
-import { coordKey, SUB_GRID } from '../../types/world';
+import { coordKey, SUB_GRID } from '../../types';
 
 export default function NatureMarkers() {
   const world = useWorldStore(s => s.world);

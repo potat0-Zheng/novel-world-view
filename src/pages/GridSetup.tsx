@@ -1,7 +1,7 @@
 // src/pages/GridSetup.tsx
 import { useState } from 'react';
 import useWorldStore from '../store/worldStore';
-import { type TerrainL1 } from '../types/world';
+import { type TerrainL1 } from '../types';
 import { L1_TYPES } from '../data/terrainTypes';
 
 const GRID_SIZE = 10;
@@ -27,13 +27,13 @@ export default function GridSetup() {
 
   const handleConfirm = () => {
     // Build WorldData directly (single set, no 100 individual calls)
-    const cells: Record<string, import('../types/world').CellData> = {};
+    const cells: Record<string, import('../types').CellData> = {};
     for (let x = 0; x < GRID_SIZE; x++) {
       for (let y = 0; y < GRID_SIZE; y++) {
         const key = `${x}-${y}`;
         const l1 = grid[y][x];
-        const subL2: import('../types/world').TerrainL2[] =
-          Array(4).fill(l1 === 'continent' ? 'plain' : 'none') as import('../types/world').TerrainL2[];
+        const subL2: import('../types').TerrainL2[] =
+          Array(4).fill(l1 === 'continent' ? 'plain' : 'none') as import('../types').TerrainL2[];
         cells[key] = {
           l1,
           l2: subL2,
@@ -42,7 +42,7 @@ export default function GridSetup() {
       }
     }
 
-    const worldData: import('../types/world').WorldData = {
+    const worldData: import('../types').WorldData = {
       config: { name: '未命名世界', gridSize: GRID_SIZE },
       cells,
       entities: {},

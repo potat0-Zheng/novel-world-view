@@ -1,14 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import useWorldStore from '../../store/worldStore';
+import { worldStorage } from '../../services/storage';
 import ViewToggle from './ViewToggle';
-
-// Simple save/load using localStorage for demo (IndexedDB in full implementation)
-function saveToLocalStorage(json: string) {
-  localStorage.setItem('novel-world-save', json);
-}
-function loadFromLocalStorage(): string | null {
-  return localStorage.getItem('novel-world-save');
-}
 
 const btnStyle: React.CSSProperties = {
   background: '#1a1a2e', border: '1px solid #333',
@@ -27,24 +20,27 @@ export default function Toolbar() {
   const setAppMode = useWorldStore(s => s.setAppMode);
   const setHighlightMode = useWorldStore(s => s.setHighlightMode);
 
-  const handleSave = () => {
-    const state = useWorldStore.getState();
-    saveToLocalStorage(JSON.stringify(state.world));
-    alert('已保存到本地存储');
+  const handleSave = async () => {
+    try {
+      const data = useWorldStore.getState().world;
+      await worldStorage.save(data);
+      alert('已保存到本地存储');
+    } catch {
+      alert('保存失败');
+    }
   };
 
-  const handleLoad = () => {
-    const json = loadFromLocalStorage();
-    if (json) {
-      try {
-        const data = JSON.parse(json);
+  const handleLoad = async () => {
+    try {
+      const data = await worldStorage.load();
+      if (data) {
         useWorldStore.getState().loadWorld(data);
         alert('已加载');
-      } catch {
-        alert('加载失败：数据格式错误');
+      } else {
+        alert('没有找到保存的数据');
       }
-    } else {
-      alert('没有找到保存的数据');
+    } catch {
+      alert('加载失败：数据格式错误');
     }
   };
 
