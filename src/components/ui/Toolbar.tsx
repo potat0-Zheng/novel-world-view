@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import useWorldStore from '../../store/worldStore';
 import ViewToggle from './ViewToggle';
 
@@ -20,10 +21,11 @@ export default function Toolbar() {
   const focusMode = useWorldStore(s => s.focusMode);
   const viewFlipped = useWorldStore(s => s.viewFlipped);
   const appMode = useWorldStore(s => s.appMode);
-  const selectedCellKey = useWorldStore(s => s.selectedCellKey);
+  const highlightMode = useWorldStore(s => s.highlightMode);
   const setFocusMode = useWorldStore(s => s.setFocusMode);
   const setViewFlipped = useWorldStore(s => s.setViewFlipped);
   const setAppMode = useWorldStore(s => s.setAppMode);
+  const setHighlightMode = useWorldStore(s => s.setHighlightMode);
 
   const handleSave = () => {
     const state = useWorldStore.getState();
@@ -77,7 +79,8 @@ export default function Toolbar() {
     input.click();
   };
 
-  const handleOverview = () => {
+  const handleFocusToggle = () => {
+    // Clicking the slider always resets to overview
     setViewFlipped(false);
     setFocusMode('overview');
   };
@@ -92,6 +95,21 @@ export default function Toolbar() {
   const handleAppModeToggle = () => {
     setAppMode(appMode === 'edit' ? 'browse' : 'edit');
   };
+
+  // ── Settings dropdown ──
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!settingsOpen) return;
+    const onMouseDown = (e: MouseEvent) => {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setSettingsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
+  }, [settingsOpen]);
 
   const isOverview = focusMode === 'overview';
   const isEditing = appMode === 'edit';
@@ -118,23 +136,42 @@ export default function Toolbar() {
         {isEditing ? '✏️ 编辑中' : '👁 浏览'}
       </button>
 
-      {/* Mode indicator */}
-      {!isOverview && (
-        <span style={{ color: '#888', fontSize: 10 }}>聚焦中</span>
-      )}
-
-      <div style={{ flex: 1 }} />
-
-      {/* Overview reset — always available */}
-      <button onClick={handleOverview}
+      {/* Overview / Focus slider */}
+      <div
+        onClick={handleFocusToggle}
+        title="点击回到总览 · 缩放/拖拽自动聚焦"
         style={{
-          ...btnStyle,
-          border: isOverview ? '1px solid #333' : '1px solid #ffd700',
-          color: isOverview ? '#666' : '#ffd700',
-          opacity: isOverview ? 0.5 : 1,
+          display: 'flex', alignItems: 'center',
+          background: '#1a1a2e', borderRadius: 20,
+          border: '1px solid #333', padding: 2,
+          cursor: 'pointer', userSelect: 'none',
+          position: 'relative', minWidth: 140,
         }}>
-        🗺 总览
-      </button>
+        {/* sliding thumb */}
+        <div style={{
+          position: 'absolute',
+          top: 2, bottom: 2,
+          left: isOverview ? 2 : '50%',
+          width: '50%',
+          background: isOverview ? '#ffd70022' : '#4a90d922',
+          border: `1px solid ${isOverview ? '#ffd700' : '#4a90d9'}`,
+          borderRadius: 18,
+          transition: 'left 0.35s ease, border-color 0.35s ease, background 0.35s ease',
+        }} />
+        {/* labels */}
+        <span style={{
+          flex: 1, textAlign: 'center', zIndex: 1,
+          color: isOverview ? '#ffd700' : '#666',
+          fontSize: 11, fontWeight: isOverview ? 700 : 400,
+          transition: 'color 0.35s ease', padding: '4px 0',
+        }}>🗺 总览</span>
+        <span style={{
+          flex: 1, textAlign: 'center', zIndex: 1,
+          color: !isOverview ? '#ffd700' : '#666',
+          fontSize: 11, fontWeight: !isOverview ? 700 : 400,
+          transition: 'color 0.35s ease', padding: '4px 0',
+        }}>🔍 聚焦</span>
+      </div>
 
       {/* Flip view direction (2.5D only — swaps SE ↔ NW) */}
       <button onClick={handleFlip}
@@ -148,10 +185,47 @@ export default function Toolbar() {
       </button>
 
       <ViewToggle />
-      <button onClick={handleSave} style={btnStyle}>💾 保存</button>
-      <button onClick={handleLoad} style={btnStyle}>📂 加载</button>
-      <button onClick={handleExport} style={btnStyle}>📤 导出</button>
-      <button onClick={handleImport} style={btnStyle}>📥 导入</button>
+
+      {/* Highlight mode toggle */}
+      <button
+        onClick={() => setHighlightMode(!highlightMode)}
+        title="高亮模式：显示网格线和单元格悬停"
+        style={{
+          ...btnStyle,
+          border: highlightMode ? '1px solid #ffd700' : '1px solid #333',
+          color: highlightMode ? '#ffd700' : '#666',
+        }}>
+        🔲 高亮
+      </button>
+
+      <div style={{ flex: 1 }} />
+
+      {/* ⚙ Settings */}
+      <div ref={settingsRef} style={{ position: 'relative' }}>
+        <button
+          onClick={() => setSettingsOpen(v => !v)}
+          title="设置"
+          style={{
+            ...btnStyle, padding: '4px 8px',
+            border: settingsOpen ? '1px solid #ffd700' : '1px solid #333',
+            color: settingsOpen ? '#ffd700' : '#888',
+          }}>
+          ⚙
+        </button>
+        {settingsOpen && (
+          <div style={{
+            position: 'absolute', top: '100%', right: 0, marginTop: 6,
+            background: '#1a1a2e', border: '1px solid #333', borderRadius: 8,
+            padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 6,
+            minWidth: 120, zIndex: 100, boxShadow: '0 4px 16px rgba(0,0,0,0.6)',
+          }}>
+            <button onClick={() => { handleSave(); setSettingsOpen(false); }} style={btnStyle}>💾 保存</button>
+            <button onClick={() => { handleLoad(); setSettingsOpen(false); }} style={btnStyle}>📂 加载</button>
+            <button onClick={() => { handleExport(); setSettingsOpen(false); }} style={btnStyle}>📤 导出</button>
+            <button onClick={() => { handleImport(); setSettingsOpen(false); }} style={btnStyle}>📥 导入</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

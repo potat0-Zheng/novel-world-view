@@ -39,6 +39,8 @@ const useWorldStore = create<WorldState & {
   setSelectedPaintL2: (t: TerrainL2) => void;
   setSelectedModelId: (id: string | null) => void;
   setSelectedCellKey: (key: CoordKey | null) => void;
+  setHighlightMode: (on: boolean) => void;
+  setHoveredCellKey: (key: CoordKey | null) => void;
   finishSetup: () => void;
   loadWorld: (data: WorldData) => void;
   addEntity: (e: Entity) => void;
@@ -56,6 +58,8 @@ const useWorldStore = create<WorldState & {
   selectedCellKey: null,
   isDirty: false,
   setupComplete: false,
+  highlightMode: false,
+  hoveredCellKey: null,
 
   initWorld: (name = '未命名世界') => {
     set({ world: createEmptyWorld(name, GRID_SIZE), isDirty: true });
@@ -124,6 +128,8 @@ const useWorldStore = create<WorldState & {
   setSelectedPaintL2: (t) => set({ selectedPaintL2: t }),
   setSelectedModelId: (id) => set({ selectedModelId: id }),
   setSelectedCellKey: (key) => set({ selectedCellKey: key }),
+  setHighlightMode: (on) => set({ highlightMode: on }),
+  setHoveredCellKey: (key) => set({ hoveredCellKey: key }),
 
   finishSetup: () => set({ setupComplete: true }),
 

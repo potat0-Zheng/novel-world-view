@@ -93,4 +93,6 @@ export interface WorldState {
   focusedCellKey: CoordKey | null;   // cell being edited (shows 2×2 grid, camera zooms in)
   isDirty: boolean;
   setupComplete: boolean;
+  highlightMode: boolean;
+  hoveredCellKey: CoordKey | null;
 }
